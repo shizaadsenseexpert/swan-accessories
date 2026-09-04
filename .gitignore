@@ -6,3 +6,6 @@ data/*.sqlite-journal
 /bangles/
 /bracelet/
 /earrings/
+
+# Local PHP runtime used only to preview the site on this PC
+/_local-server/
