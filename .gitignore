@@ -1,0 +1,8 @@
+# Runtime database (contains local test/order data, not source)
+data/*.sqlite
+data/*.sqlite-journal
+
+# Original uploaded photos — duplicated into assets/images/products/, not needed in the repo
+/bangles/
+/bracelet/
+/earrings/
