@@ -133,6 +133,9 @@ function product_name_map(): array {
         'pendant 5.jpeg' => 'Double Pink Heart Crystal Pendant',
         'pendant 6.jpeg' => 'Best Friends Split Heart Pendant Set',
         'pendant 7.jpeg' => 'Love Beyond the Moon & Stars Pendant',
+        'pendant 8.jpeg' => 'Oxidized Silver Floral Chandbali Necklace',
+        'pendant 9.jpeg' => 'Best Friends Three-Piece Split Heart Pendant Set',
+        'pendant 10.jpeg' => 'Sister Love You to the Moon Pendant',
     ];
 }
 
