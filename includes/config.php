@@ -3,7 +3,7 @@
 
 define('SITE_NAME', 'Swan Accessories');
 define('SITE_TAGLINE', 'Timeless pieces, everyday grace.');
-define('CURRENCY_SYMBOL', 'Rs. ');
+define('SITE_CURRENCY_SYMBOL', 'Rs. ');
 
 // Contact & social links — shown in the footer and Contact Us page.
 define('SITE_PHONE_DISPLAY', '0342-4533765');

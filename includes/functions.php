@@ -2,16 +2,16 @@
 require_once __DIR__ . '/db.php';
 
 function money(int $amount): string {
-    return CURRENCY_SYMBOL . number_format($amount);
+    return SITE_CURRENCY_SYMBOL . number_format($amount);
 }
 
 function category_label(string $cat): string {
-    $labels = ['bangles' => 'Bangles', 'bracelet' => 'Bracelets', 'earrings' => 'Earrings'];
+    $labels = ['bangles' => 'Bangles', 'bracelet' => 'Bracelets', 'earrings' => 'Earrings', 'pendants' => 'Pendants', 'rings' => 'Rings'];
     return $labels[$cat] ?? ucfirst($cat);
 }
 
 function all_categories(): array {
-    return ['bangles', 'bracelet', 'earrings'];
+    return ['bangles', 'bracelet', 'earrings', 'pendants', 'rings'];
 }
 
 function get_products(?string $category = null, bool $activeOnly = true): array {

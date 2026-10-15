@@ -37,6 +37,7 @@ function migrate_schema(PDO $pdo): void {
     }
 
     rename_generic_products($pdo);
+    seed_new_products($pdo);
 }
 
 // Renames any product still using the old auto-generated "Bangle 1" style
@@ -105,6 +106,7 @@ function product_name_map(): array {
         'bangle 2.jpeg' => 'Beaded Gold Bangle Set',
         'bangle 3.jpeg' => 'Kundan Multicolor Stone Bangle Set',
         'bangle 4.jpeg' => 'Black Stone Gold Bangle Set',
+        'bangle 5.jpeg' => 'Filigree Gold Kundan Bangle Pair',
 
         'bracelet 1.jpeg' => 'Vintage Floral Gemstone Bracelet',
         'bracelet 2.jpeg' => 'Ruby Red Crystal Bracelet',
@@ -112,6 +114,11 @@ function product_name_map(): array {
         'bracelet 4.jpeg' => 'Turquoise Stone Bracelet',
         'bracelet 5.jpeg' => 'Malachite Clover Bracelet',
         'bracelet 6.jpeg' => 'Multicolor Gemstone Bracelet',
+        'bracelet 7.jpeg' => 'Turquoise Crystal Peace Sign Bracelet',
+        'bracelet 8.jpeg' => 'Emerald Green Crystal Gold Chain Bracelet',
+        'bracelet 9.jpeg' => 'Pink & Pearl Blossom Bracelet',
+        'bracelet 10.jpeg' => 'Yellow Daisy Gold Cuff Bracelet',
+        'bracelet 11.jpeg' => 'Rose Quartz & Pearl Beaded Bracelet Stack',
 
         'earring 1.jpeg' => 'Oxidized Silver Pearl Jhumka Earrings',
         'earring 2.jpeg' => 'Pearl & Crystal Beaded Hoop Earrings',
@@ -124,21 +131,66 @@ function product_name_map(): array {
         'earring 9.jpeg' => 'Pearl Bow Wreath Stud Earrings',
         'earring 10.jpeg' => 'Black Stone Floral Drop Earrings',
         'earring 11.jpeg' => 'Black Marble Drop Earrings',
+        'earring 12.jpeg' => 'Ivory & Charcoal Marble Enamel Drop Earrings',
+        'earring 13.jpeg' => 'Gold Crystal Double Circle Earrings',
+        'earring 14.jpeg' => 'Silver Square Hoop Earrings',
+        'earring 15.jpeg' => 'Antique Gold Chandbali Earrings',
+
+        'pendant 1.jpeg' => 'Golden Leaf Vine Ribbon Necklace',
+        'pendant 2.jpeg' => 'Golden Beaded Rope Necklace',
+        'pendant 3.jpeg' => 'Vintage Silver Owl Pendant',
+        'pendant 4.jpeg' => 'Red Retro Camera Pendant',
+        'pendant 5.jpeg' => 'Double Pink Heart Crystal Pendant',
+        'pendant 6.jpeg' => 'Best Friends Split Heart Pendant Set',
+        'pendant 7.jpeg' => 'Love Beyond the Moon & Stars Pendant',
+        'pendant 8.jpeg' => 'Oxidized Silver Floral Chandbali Necklace',
+        'pendant 9.jpeg' => 'Best Friends Three-Piece Split Heart Pendant Set',
+        'pendant 10.jpeg' => 'Sister Love You to the Moon Pendant',
+
+        'ring 1.jpeg' => 'Pearl Cluster Gold Statement Ring',
+        'ring 2.jpeg' => 'Red Heart Enamel Fan Ring',
+        'ring 3.jpeg' => 'Dainty Gold Stackable Ring Set',
+        'ring 4.jpeg' => 'Emerald Crystal Flower Ring',
+        'ring 5.jpeg' => 'Ruby Red Sunburst Cocktail Ring',
+        'ring 6.jpeg' => 'Hot Pink Baguette Crystal Band Ring',
+        'ring 7.jpeg' => 'Minimal Gold Heart & Bar Ring Set',
+        'ring 8.jpeg' => 'Gold Chevron & Stacking Band Ring Set',
     ];
 }
 
-function seed_products(PDO $pdo): void {
-    $categories = [
+function seed_categories(): array {
+    return [
         'bangles'   => ['label' => 'Bangles',   'price' => 450],
         'bracelet'  => ['label' => 'Bracelets', 'price' => 650],
         'earrings'  => ['label' => 'Earrings',  'price' => 350],
+        'pendants'  => ['label' => 'Pendants',  'price' => 550],
+        'rings'     => ['label' => 'Rings',     'price' => 400],
     ];
+}
+
+// Products added after the store was first set up. Existing databases get
+// any of these that aren't already a product: every pendant and ring photo, and only
+// the listed newer photos in the older categories.
+function seed_new_products(PDO $pdo): void {
+    $categories = seed_categories();
+    seed_products($pdo, ['pendants' => $categories['pendants']], true);
+    seed_products($pdo, ['rings' => $categories['rings']], true);
+    seed_products($pdo, ['earrings' => $categories['earrings']], true,
+        ['earring 12.jpeg', 'earring 13.jpeg', 'earring 14.jpeg', 'earring 15.jpeg']);
+    seed_products($pdo, ['bracelet' => $categories['bracelet']], true,
+        ['bracelet 7.jpeg', 'bracelet 8.jpeg', 'bracelet 9.jpeg', 'bracelet 10.jpeg', 'bracelet 11.jpeg']);
+    seed_products($pdo, ['bangles' => $categories['bangles']], true, ['bangle 5.jpeg']);
+}
+
+function seed_products(PDO $pdo, ?array $categories = null, bool $skipExisting = false, ?array $onlyFiles = null): void {
+    $categories = $categories ?? seed_categories();
     $names = product_name_map();
 
     $stmt = $pdo->prepare("
         INSERT INTO products (category, name, price, description, image_path, is_active)
         VALUES (:category, :name, :price, :description, :image_path, 1)
     ");
+    $exists = $pdo->prepare("SELECT 1 FROM products WHERE image_path = :image_path");
 
     foreach ($categories as $cat => $info) {
         $dir = BASE_PATH . '/assets/images/products/' . $cat;
@@ -149,6 +201,13 @@ function seed_products(PDO $pdo): void {
             if ($file === '.' || $file === '..') continue;
             $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
             if (!in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) continue;
+            if ($onlyFiles !== null && !in_array($file, $onlyFiles, true)) continue;
+
+            $imagePath = 'assets/images/products/' . $cat . '/' . $file;
+            if ($skipExisting) {
+                $exists->execute([':image_path' => $imagePath]);
+                if ($exists->fetchColumn()) continue;
+            }
 
             $name = $names[strtolower($file)] ?? ucwords(trim(pathinfo($file, PATHINFO_FILENAME)));
             $stmt->execute([
@@ -156,7 +215,7 @@ function seed_products(PDO $pdo): void {
                 ':name'        => $name,
                 ':price'       => $info['price'],
                 ':description' => 'A beautiful piece from our ' . $info['label'] . ' collection.',
-                ':image_path'  => 'assets/images/products/' . $cat . '/' . $file,
+                ':image_path'  => $imagePath,
             ]);
         }
     }
