@@ -23,6 +23,7 @@
       <a href="<?= $basePath ?? '' ?>/shop.php?cat=bracelet">Bracelets</a>
       <a href="<?= $basePath ?? '' ?>/shop.php?cat=earrings">Earrings</a>
       <a href="<?= $basePath ?? '' ?>/shop.php?cat=pendants">Pendants</a>
+      <a href="<?= $basePath ?? '' ?>/shop.php?cat=rings">Rings</a>
     </nav>
     <div class="header-actions">
       <a class="cart-link" href="<?= $basePath ?? '' ?>/cart.php">

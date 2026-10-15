@@ -146,6 +146,12 @@ function product_name_map(): array {
         'pendant 8.jpeg' => 'Oxidized Silver Floral Chandbali Necklace',
         'pendant 9.jpeg' => 'Best Friends Three-Piece Split Heart Pendant Set',
         'pendant 10.jpeg' => 'Sister Love You to the Moon Pendant',
+
+        'ring 1.jpeg' => 'Pearl Cluster Gold Statement Ring',
+        'ring 2.jpeg' => 'Red Heart Enamel Fan Ring',
+        'ring 3.jpeg' => 'Dainty Gold Stackable Ring Set',
+        'ring 4.jpeg' => 'Emerald Crystal Flower Ring',
+        'ring 5.jpeg' => 'Ruby Red Sunburst Cocktail Ring',
     ];
 }
 
@@ -155,15 +161,17 @@ function seed_categories(): array {
         'bracelet'  => ['label' => 'Bracelets', 'price' => 650],
         'earrings'  => ['label' => 'Earrings',  'price' => 350],
         'pendants'  => ['label' => 'Pendants',  'price' => 550],
+        'rings'     => ['label' => 'Rings',     'price' => 400],
     ];
 }
 
 // Products added after the store was first set up. Existing databases get
-// any of these that aren't already a product: every pendant photo, and only
+// any of these that aren't already a product: every pendant and ring photo, and only
 // the listed newer photos in the older categories.
 function seed_new_products(PDO $pdo): void {
     $categories = seed_categories();
     seed_products($pdo, ['pendants' => $categories['pendants']], true);
+    seed_products($pdo, ['rings' => $categories['rings']], true);
     seed_products($pdo, ['earrings' => $categories['earrings']], true,
         ['earring 12.jpeg', 'earring 13.jpeg', 'earring 14.jpeg', 'earring 15.jpeg']);
     seed_products($pdo, ['bracelet' => $categories['bracelet']], true,

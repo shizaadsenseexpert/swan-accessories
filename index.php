@@ -20,7 +20,7 @@ require __DIR__ . '/includes/header.php';
   <div class="hero-inner">
     <div class="hero-copy">
       <h1>Grace, in every detail.</h1>
-      <p><?= e(SITE_TAGLINE) ?> Handpicked bangles, bracelets, earrings and pendants for the everyday and the unforgettable.</p>
+      <p><?= e(SITE_TAGLINE) ?> Handpicked bangles, bracelets, earrings, pendants and rings for the everyday and the unforgettable.</p>
       <div style="display:flex; gap:14px; flex-wrap:wrap;">
         <a href="shop.php" class="btn btn-primary">Shop the Collection</a>
         <a href="<?= e(whatsapp_link('Hi! I would like to know more about your collection.')) ?>" target="_blank" rel="noopener" class="btn btn-outline">Ask on WhatsApp</a>
