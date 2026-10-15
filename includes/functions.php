@@ -2,7 +2,7 @@
 require_once __DIR__ . '/db.php';
 
 function money(int $amount): string {
-    return CURRENCY_SYMBOL . number_format($amount);
+    return SITE_CURRENCY_SYMBOL . number_format($amount);
 }
 
 function category_label(string $cat): string {
