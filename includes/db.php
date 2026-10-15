@@ -37,7 +37,7 @@ function migrate_schema(PDO $pdo): void {
     }
 
     rename_generic_products($pdo);
-    seed_missing_categories($pdo);
+    seed_new_products($pdo);
 }
 
 // Renames any product still using the old auto-generated "Bangle 1" style
@@ -128,6 +128,11 @@ function product_name_map(): array {
 
         'pendant 1.jpeg' => 'Golden Leaf Vine Ribbon Necklace',
         'pendant 2.jpeg' => 'Golden Beaded Rope Necklace',
+        'pendant 3.jpeg' => 'Vintage Silver Owl Pendant',
+        'pendant 4.jpeg' => 'Red Retro Camera Pendant',
+        'pendant 5.jpeg' => 'Double Pink Heart Crystal Pendant',
+        'pendant 6.jpeg' => 'Best Friends Split Heart Pendant Set',
+        'pendant 7.jpeg' => 'Love Beyond the Moon & Stars Pendant',
     ];
 }
 
@@ -140,19 +145,14 @@ function seed_categories(): array {
     ];
 }
 
-// Seeds any category that has no products yet, so categories added after
-// the store was first set up (e.g. Pendants) appear on existing databases.
-function seed_missing_categories(PDO $pdo): void {
-    $count = $pdo->prepare("SELECT COUNT(*) FROM products WHERE category = :category");
-    $missing = [];
-    foreach (seed_categories() as $cat => $info) {
-        $count->execute([':category' => $cat]);
-        if ((int)$count->fetchColumn() === 0) $missing[$cat] = $info;
-    }
-    if (!empty($missing)) seed_products($pdo, $missing);
+// Pendants were added after the store was first set up, so existing
+// databases get any pendant photo that isn't already a product.
+function seed_new_products(PDO $pdo): void {
+    $categories = seed_categories();
+    seed_products($pdo, ['pendants' => $categories['pendants']], true);
 }
 
-function seed_products(PDO $pdo, ?array $categories = null): void {
+function seed_products(PDO $pdo, ?array $categories = null, bool $skipExisting = false): void {
     $categories = $categories ?? seed_categories();
     $names = product_name_map();
 
@@ -160,6 +160,7 @@ function seed_products(PDO $pdo, ?array $categories = null): void {
         INSERT INTO products (category, name, price, description, image_path, is_active)
         VALUES (:category, :name, :price, :description, :image_path, 1)
     ");
+    $exists = $pdo->prepare("SELECT 1 FROM products WHERE image_path = :image_path");
 
     foreach ($categories as $cat => $info) {
         $dir = BASE_PATH . '/assets/images/products/' . $cat;
@@ -171,13 +172,19 @@ function seed_products(PDO $pdo, ?array $categories = null): void {
             $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
             if (!in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) continue;
 
+            $imagePath = 'assets/images/products/' . $cat . '/' . $file;
+            if ($skipExisting) {
+                $exists->execute([':image_path' => $imagePath]);
+                if ($exists->fetchColumn()) continue;
+            }
+
             $name = $names[strtolower($file)] ?? ucwords(trim(pathinfo($file, PATHINFO_FILENAME)));
             $stmt->execute([
                 ':category'    => $cat,
                 ':name'        => $name,
                 ':price'       => $info['price'],
                 ':description' => 'A beautiful piece from our ' . $info['label'] . ' collection.',
-                ':image_path'  => 'assets/images/products/' . $cat . '/' . $file,
+                ':image_path'  => $imagePath,
             ]);
         }
     }
