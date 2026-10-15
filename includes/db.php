@@ -152,6 +152,9 @@ function product_name_map(): array {
         'ring 3.jpeg' => 'Dainty Gold Stackable Ring Set',
         'ring 4.jpeg' => 'Emerald Crystal Flower Ring',
         'ring 5.jpeg' => 'Ruby Red Sunburst Cocktail Ring',
+        'ring 6.jpeg' => 'Hot Pink Baguette Crystal Band Ring',
+        'ring 7.jpeg' => 'Minimal Gold Heart & Bar Ring Set',
+        'ring 8.jpeg' => 'Gold Chevron & Stacking Band Ring Set',
     ];
 }
 
