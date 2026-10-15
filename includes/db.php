@@ -113,6 +113,11 @@ function product_name_map(): array {
         'bracelet 4.jpeg' => 'Turquoise Stone Bracelet',
         'bracelet 5.jpeg' => 'Malachite Clover Bracelet',
         'bracelet 6.jpeg' => 'Multicolor Gemstone Bracelet',
+        'bracelet 7.jpeg' => 'Turquoise Crystal Peace Sign Bracelet',
+        'bracelet 8.jpeg' => 'Emerald Green Crystal Gold Chain Bracelet',
+        'bracelet 9.jpeg' => 'Pink & Pearl Blossom Bracelet',
+        'bracelet 10.jpeg' => 'Yellow Daisy Gold Cuff Bracelet',
+        'bracelet 11.jpeg' => 'Rose Quartz & Pearl Beaded Bracelet Stack',
 
         'earring 1.jpeg' => 'Oxidized Silver Pearl Jhumka Earrings',
         'earring 2.jpeg' => 'Pearl & Crystal Beaded Hoop Earrings',
@@ -154,12 +159,14 @@ function seed_categories(): array {
 
 // Products added after the store was first set up. Existing databases get
 // any of these that aren't already a product: every pendant photo, and only
-// the listed newer earring photos.
+// the listed newer photos in the older categories.
 function seed_new_products(PDO $pdo): void {
     $categories = seed_categories();
     seed_products($pdo, ['pendants' => $categories['pendants']], true);
     seed_products($pdo, ['earrings' => $categories['earrings']], true,
         ['earring 12.jpeg', 'earring 13.jpeg', 'earring 14.jpeg', 'earring 15.jpeg']);
+    seed_products($pdo, ['bracelet' => $categories['bracelet']], true,
+        ['bracelet 7.jpeg', 'bracelet 8.jpeg', 'bracelet 9.jpeg', 'bracelet 10.jpeg', 'bracelet 11.jpeg']);
 }
 
 function seed_products(PDO $pdo, ?array $categories = null, bool $skipExisting = false, ?array $onlyFiles = null): void {
