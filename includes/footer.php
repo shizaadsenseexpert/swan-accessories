@@ -32,6 +32,7 @@
       <a href="<?= $basePath ?? '' ?>/shop.php?cat=bangles">Bangles</a>
       <a href="<?= $basePath ?? '' ?>/shop.php?cat=bracelet">Bracelets</a>
       <a href="<?= $basePath ?? '' ?>/shop.php?cat=earrings">Earrings</a>
+      <a href="<?= $basePath ?? '' ?>/shop.php?cat=pendants">Pendants</a>
     </div>
 
     <div class="footer-col">

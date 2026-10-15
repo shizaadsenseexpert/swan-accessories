@@ -37,6 +37,7 @@ function migrate_schema(PDO $pdo): void {
     }
 
     rename_generic_products($pdo);
+    seed_missing_categories($pdo);
 }
 
 // Renames any product still using the old auto-generated "Bangle 1" style
@@ -124,15 +125,35 @@ function product_name_map(): array {
         'earring 9.jpeg' => 'Pearl Bow Wreath Stud Earrings',
         'earring 10.jpeg' => 'Black Stone Floral Drop Earrings',
         'earring 11.jpeg' => 'Black Marble Drop Earrings',
+
+        'pendant 1.jpeg' => 'Golden Leaf Vine Ribbon Necklace',
+        'pendant 2.jpeg' => 'Golden Beaded Rope Necklace',
     ];
 }
 
-function seed_products(PDO $pdo): void {
-    $categories = [
+function seed_categories(): array {
+    return [
         'bangles'   => ['label' => 'Bangles',   'price' => 450],
         'bracelet'  => ['label' => 'Bracelets', 'price' => 650],
         'earrings'  => ['label' => 'Earrings',  'price' => 350],
+        'pendants'  => ['label' => 'Pendants',  'price' => 550],
     ];
+}
+
+// Seeds any category that has no products yet, so categories added after
+// the store was first set up (e.g. Pendants) appear on existing databases.
+function seed_missing_categories(PDO $pdo): void {
+    $count = $pdo->prepare("SELECT COUNT(*) FROM products WHERE category = :category");
+    $missing = [];
+    foreach (seed_categories() as $cat => $info) {
+        $count->execute([':category' => $cat]);
+        if ((int)$count->fetchColumn() === 0) $missing[$cat] = $info;
+    }
+    if (!empty($missing)) seed_products($pdo, $missing);
+}
+
+function seed_products(PDO $pdo, ?array $categories = null): void {
+    $categories = $categories ?? seed_categories();
     $names = product_name_map();
 
     $stmt = $pdo->prepare("

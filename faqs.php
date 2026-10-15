@@ -4,7 +4,7 @@ $basePath = '';
 $pageTitle = 'FAQs';
 
 $faqs = [
-    ['How do I place an order?', 'Browse our Bangles, Bracelets, and Earrings, add the pieces you like to your cart, then go to checkout and fill in your delivery details. No account needed.'],
+    ['How do I place an order?', 'Browse our Bangles, Bracelets, Earrings, and Pendants, add the pieces you like to your cart, then go to checkout and fill in your delivery details. No account needed.'],
     ['What payment methods do you accept?', 'Currently we accept Cash on Delivery (COD) — you pay in cash when your order arrives at your doorstep. Online payment options are coming soon.'],
     ['How long does delivery take?', 'Most orders are delivered within 3–5 working days, depending on your city. See our Shipping Details page for more.'],
     ['Can I exchange or return a product?', 'Yes — see our Refund & Exchange Policy page for the full details on exchanges.'],
