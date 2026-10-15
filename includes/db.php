@@ -125,6 +125,10 @@ function product_name_map(): array {
         'earring 9.jpeg' => 'Pearl Bow Wreath Stud Earrings',
         'earring 10.jpeg' => 'Black Stone Floral Drop Earrings',
         'earring 11.jpeg' => 'Black Marble Drop Earrings',
+        'earring 12.jpeg' => 'Ivory & Charcoal Marble Enamel Drop Earrings',
+        'earring 13.jpeg' => 'Gold Crystal Double Circle Earrings',
+        'earring 14.jpeg' => 'Silver Square Hoop Earrings',
+        'earring 15.jpeg' => 'Antique Gold Chandbali Earrings',
 
         'pendant 1.jpeg' => 'Golden Leaf Vine Ribbon Necklace',
         'pendant 2.jpeg' => 'Golden Beaded Rope Necklace',
@@ -148,14 +152,17 @@ function seed_categories(): array {
     ];
 }
 
-// Pendants were added after the store was first set up, so existing
-// databases get any pendant photo that isn't already a product.
+// Products added after the store was first set up. Existing databases get
+// any of these that aren't already a product: every pendant photo, and only
+// the listed newer earring photos.
 function seed_new_products(PDO $pdo): void {
     $categories = seed_categories();
     seed_products($pdo, ['pendants' => $categories['pendants']], true);
+    seed_products($pdo, ['earrings' => $categories['earrings']], true,
+        ['earring 12.jpeg', 'earring 13.jpeg', 'earring 14.jpeg', 'earring 15.jpeg']);
 }
 
-function seed_products(PDO $pdo, ?array $categories = null, bool $skipExisting = false): void {
+function seed_products(PDO $pdo, ?array $categories = null, bool $skipExisting = false, ?array $onlyFiles = null): void {
     $categories = $categories ?? seed_categories();
     $names = product_name_map();
 
@@ -174,6 +181,7 @@ function seed_products(PDO $pdo, ?array $categories = null, bool $skipExisting =
             if ($file === '.' || $file === '..') continue;
             $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
             if (!in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) continue;
+            if ($onlyFiles !== null && !in_array($file, $onlyFiles, true)) continue;
 
             $imagePath = 'assets/images/products/' . $cat . '/' . $file;
             if ($skipExisting) {
