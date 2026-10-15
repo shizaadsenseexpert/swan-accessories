@@ -106,6 +106,7 @@ function product_name_map(): array {
         'bangle 2.jpeg' => 'Beaded Gold Bangle Set',
         'bangle 3.jpeg' => 'Kundan Multicolor Stone Bangle Set',
         'bangle 4.jpeg' => 'Black Stone Gold Bangle Set',
+        'bangle 5.jpeg' => 'Filigree Gold Kundan Bangle Pair',
 
         'bracelet 1.jpeg' => 'Vintage Floral Gemstone Bracelet',
         'bracelet 2.jpeg' => 'Ruby Red Crystal Bracelet',
@@ -167,6 +168,7 @@ function seed_new_products(PDO $pdo): void {
         ['earring 12.jpeg', 'earring 13.jpeg', 'earring 14.jpeg', 'earring 15.jpeg']);
     seed_products($pdo, ['bracelet' => $categories['bracelet']], true,
         ['bracelet 7.jpeg', 'bracelet 8.jpeg', 'bracelet 9.jpeg', 'bracelet 10.jpeg', 'bracelet 11.jpeg']);
+    seed_products($pdo, ['bangles' => $categories['bangles']], true, ['bangle 5.jpeg']);
 }
 
 function seed_products(PDO $pdo, ?array $categories = null, bool $skipExisting = false, ?array $onlyFiles = null): void {
