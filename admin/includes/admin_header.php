@@ -12,14 +12,14 @@
 <body class="admin-body">
 <div class="admin-shell">
   <aside class="admin-sidebar">
-    <span class="brand-mark">Swan</span><span class="brand-sub">Admin</span>
+    <div class="admin-brand"><span class="brand-mark">Swan</span><span class="brand-sub">Admin</span></div>
     <nav>
       <a href="./" class="<?= ($activeNav ?? '') === 'dashboard' ? 'active' : '' ?>">Dashboard</a>
       <a href="orders" class="<?= ($activeNav ?? '') === 'orders' ? 'active' : '' ?>">Orders</a>
       <a href="products" class="<?= ($activeNav ?? '') === 'products' ? 'active' : '' ?>">Products</a>
       <a href="../" target="_blank">View Site &rarr;</a>
-      <form action="logout" method="post" style="margin-top:20px;">
-        <button type="submit" class="link-btn" style="color:#D8CDBF;">Log out</button>
+      <form action="logout" method="post" class="admin-logout">
+        <button type="submit">Log out</button>
       </form>
     </nav>
   </aside>
