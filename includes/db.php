@@ -38,6 +38,7 @@ function migrate_schema(PDO $pdo): void {
 
     rename_generic_products($pdo);
     seed_new_products($pdo);
+    update_generic_descriptions($pdo);
 }
 
 // Renames any product still using the old auto-generated "Bangle 1" style
@@ -158,6 +159,135 @@ function product_name_map(): array {
     ];
 }
 
+// Short description for each seeded product, keyed by photo filename.
+function product_description_map(): array {
+    return [
+        'bangle 1.jpeg' => 'Gold-tone bangles studded with sparkling crystals. A festive set that adds instant shine to party and wedding outfits.',
+        'bangle 2.jpeg' => 'Gold bangles finished with delicate beading. Lightweight and easy to stack for everyday or festive wear.',
+        'bangle 3.jpeg' => 'Traditional kundan bangles set with colourful stones. Pairs beautifully with bright shalwar kameez and bridal wear.',
+        'bangle 4.jpeg' => 'Gold bangles accented with bold black stones. A striking contrast that suits both eastern and western outfits.',
+        'bangle 5.jpeg' => 'A pair of intricate gold filigree bangles with kundan detailing. Classic craftsmanship for weddings and Eid.',
+
+        'bracelet 1.jpeg' => 'A vintage-inspired bracelet with floral gemstone accents. Adds a soft, romantic touch to any look.',
+        'bracelet 2.jpeg' => 'Rich ruby-red crystals on a sleek bracelet. A bold pop of colour for evenings and celebrations.',
+        'bracelet 3.jpeg' => 'Mother-of-pearl clover motifs with a gentle shimmer. Elegant and minimal for daily wear.',
+        'bracelet 4.jpeg' => 'A bracelet featuring calming turquoise stones. Brings a fresh, boho feel to casual outfits.',
+        'bracelet 5.jpeg' => 'Deep green malachite clover charms on a fine chain. Polished, timeless and easy to layer.',
+        'bracelet 6.jpeg' => 'A colourful mix of gemstones on one bracelet. Fun, vibrant and perfect with simple outfits.',
+        'bracelet 7.jpeg' => 'Turquoise crystals with a playful peace sign charm. A cheerful everyday piece.',
+        'bracelet 8.jpeg' => 'A gold chain bracelet set with emerald-green crystals. Adds a touch of luxury to any occasion.',
+        'bracelet 9.jpeg' => 'Pink blossoms and pearls on a dainty bracelet. Sweet, feminine and ideal as a gift.',
+        'bracelet 10.jpeg' => 'A gold cuff decorated with bright yellow daisies. A sunny statement piece for summer.',
+        'bracelet 11.jpeg' => 'A stack of rose quartz and pearl beaded bracelets. Wear them together or style them separately.',
+
+        'earring 1.jpeg' => 'Oxidized silver jhumkas finished with pearl drops. A traditional favourite for kurtas and festive wear.',
+        'earring 2.jpeg' => 'Hoops wrapped in pearls and crystals. Light, elegant and suitable for day or night.',
+        'earring 3.jpeg' => 'Dainty dragonfly studs set with teal crystals. A delicate pop of colour for everyday wear.',
+        'earring 4.jpeg' => 'Gold chain-link drops with a modern edge. Effortlessly chic with both casual and formal outfits.',
+        'earring 5.jpeg' => 'Small lightning bolt studs with a fun, edgy vibe. Perfect for everyday styling.',
+        'earring 6.jpeg' => 'Cute owl-shaped studs for a playful touch. Lightweight and comfortable all day.',
+        'earring 7.jpeg' => 'Drop earrings inspired by colourful peacock feathers. Eye-catching and festive.',
+        'earring 8.jpeg' => 'Square crystal drops that catch the light beautifully. A polished choice for parties and dinners.',
+        'earring 9.jpeg' => 'Pearl studs shaped into a bow wreath. Graceful and perfect for formal occasions.',
+        'earring 10.jpeg' => 'Floral drop earrings with black stones. A bold yet elegant statement.',
+        'earring 11.jpeg' => 'Drop earrings with a sleek black marble finish. Modern and minimal.',
+        'earring 12.jpeg' => 'Enamel drops in ivory and charcoal marble tones. Understated style that goes with everything.',
+        'earring 13.jpeg' => 'Interlinked gold circles set with crystals. A refined everyday-to-evening pair.',
+        'earring 14.jpeg' => 'Silver hoops with a contemporary square shape. Clean, modern and easy to wear.',
+        'earring 15.jpeg' => 'Antique gold chandbalis with traditional detailing. Made for weddings, mehndis and Eid.',
+
+        'pendant 1.jpeg' => 'A gold necklace with a leaf and vine ribbon design. Graceful and nature-inspired.',
+        'pendant 2.jpeg' => 'A golden beaded rope necklace with rich texture. Elevates both plain and embellished outfits.',
+        'pendant 3.jpeg' => 'A vintage-style silver owl pendant full of character. A charming piece for everyday wear.',
+        'pendant 4.jpeg' => 'A fun red retro camera pendant. Perfect for photography lovers and quirky styles.',
+        'pendant 5.jpeg' => 'Two pink crystal hearts on a dainty chain. A sweet, romantic gift.',
+        'pendant 6.jpeg' => 'A split heart pendant set to share with your best friend. Each of you keeps one half.',
+        'pendant 7.jpeg' => 'A moon and stars pendant that says love beyond limits. A meaningful gift for someone special.',
+        'pendant 8.jpeg' => 'An oxidized silver necklace with a floral chandbali design. Traditional charm for festive outfits.',
+        'pendant 9.jpeg' => 'A three-piece split heart set for your best friends. One heart, three keepers.',
+        'pendant 10.jpeg' => 'A heartfelt "love you to the moon" pendant for your sister. A gift she will treasure.',
+
+        'ring 1.jpeg' => 'A gold statement ring topped with a cluster of pearls. Classy and eye-catching.',
+        'ring 2.jpeg' => 'A fan-shaped ring with red heart enamel details. Playful and full of charm.',
+        'ring 3.jpeg' => 'A set of dainty gold rings made for stacking. Mix and match across your fingers.',
+        'ring 4.jpeg' => 'A flower ring set with emerald-green crystals. A fresh, feminine statement.',
+        'ring 5.jpeg' => 'A ruby-red cocktail ring with a sunburst design. Bold glamour for special nights.',
+        'ring 6.jpeg' => 'A band lined with hot pink baguette crystals. A vibrant everyday sparkle.',
+        'ring 7.jpeg' => 'Minimal gold rings with heart and bar details. Subtle, modern and easy to stack.',
+        'ring 8.jpeg' => 'A gold chevron ring with matching stacking bands. Wear them together or on their own.',
+    ];
+}
+
+// Writes a short description from a product's name and category, for
+// products that aren't in product_description_map() (e.g. added in admin).
+function generate_product_description(string $name, string $category): string {
+    $n = strtolower($name);
+    $features = [
+        '/kundan/'          => 'traditional kundan stones',
+        '/pearl/'           => 'lustrous pearls',
+        '/oxidi[sz]ed/'     => 'an antique oxidized finish',
+        '/enamel/'          => 'glossy enamel detailing',
+        '/crystal/'         => 'sparkling crystals',
+        '/zircon/'          => 'sparkling zircons',
+        '/stone/'           => 'eye-catching stones',
+        '/butterfly/'       => 'a delicate butterfly motif',
+        '/heart/'           => 'a sweet heart motif',
+        '/flower|floral|daisy|\brose\b(?! gold)/' => 'a pretty floral design',
+        '/leaf/'            => 'a graceful leaf design',
+        '/moon/'            => 'a dreamy moon motif',
+        '/\bstars?\b/'      => 'a shining star motif',
+        '/rose gold/'       => 'a soft rose gold tone',
+        '/gold/'            => 'a warm gold tone',
+        '/silver/'          => 'a polished silver tone',
+    ];
+    $picked = [];
+    foreach ($features as $pattern => $phrase) {
+        if (preg_match($pattern, $n)) {
+            $picked[] = $phrase;
+            // "rose gold" already covers the gold tone
+            if ($pattern === '/rose gold/') unset($features['/gold/']);
+        }
+        if (count($picked) === 2) break;
+    }
+
+    $lines = [
+        'bangles'  => 'Easy to stack and comfortable for festive or everyday wear.',
+        'bracelet' => 'A graceful finishing touch for your wrist, day or night.',
+        'earrings' => 'Lightweight and comfortable enough to wear all day.',
+        'pendants' => 'Hangs beautifully on its chain and makes a thoughtful gift.',
+        'rings'    => 'A stylish accent to wear on its own or stacked.',
+    ];
+    $second = preg_match('/kundan|chandbali|jhumka|bridal|polki|jadau/', $n)
+        ? 'Perfect for weddings, mehndis and Eid.'
+        : ($lines[$category] ?? 'A lovely addition to your jewellery collection.');
+
+    if (empty($picked)) {
+        return trim($name) . ' from our ' . category_label($category) . ' collection. ' . $second;
+    }
+    return trim($name) . ' featuring ' . implode(' and ', $picked) . '. ' . $second;
+}
+
+function is_placeholder_description(string $description): bool {
+    $description = trim($description);
+    return $description === '' || preg_match('/^A beautiful piece from our .+ collection\.$/', $description) === 1;
+}
+
+// Fills in the description for every product that is blank or still using
+// the old generic placeholder text, without touching descriptions an admin
+// has written.
+function update_generic_descriptions(PDO $pdo): void {
+    $descriptions = product_description_map();
+    $rows = $pdo->query("SELECT id, name, category, description, image_path FROM products")->fetchAll(PDO::FETCH_ASSOC);
+    $update = $pdo->prepare("UPDATE products SET description = :description WHERE id = :id");
+
+    foreach ($rows as $row) {
+        if (!is_placeholder_description($row['description'])) continue;
+        $filename = strtolower(basename($row['image_path']));
+        $description = $descriptions[$filename] ?? generate_product_description($row['name'], $row['category']);
+        $update->execute([':description' => $description, ':id' => $row['id']]);
+    }
+}
+
 function seed_categories(): array {
     return [
         'bangles'   => ['label' => 'Bangles',   'price' => 450],
@@ -185,6 +315,7 @@ function seed_new_products(PDO $pdo): void {
 function seed_products(PDO $pdo, ?array $categories = null, bool $skipExisting = false, ?array $onlyFiles = null): void {
     $categories = $categories ?? seed_categories();
     $names = product_name_map();
+    $descriptions = product_description_map();
 
     $stmt = $pdo->prepare("
         INSERT INTO products (category, name, price, description, image_path, is_active)
@@ -214,7 +345,7 @@ function seed_products(PDO $pdo, ?array $categories = null, bool $skipExisting =
                 ':category'    => $cat,
                 ':name'        => $name,
                 ':price'       => $info['price'],
-                ':description' => 'A beautiful piece from our ' . $info['label'] . ' collection.',
+                ':description' => $descriptions[strtolower($file)] ?? generate_product_description($name, $cat),
                 ':image_path'  => $imagePath,
             ]);
         }

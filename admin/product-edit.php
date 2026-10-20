@@ -45,6 +45,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errors)) {
+        if ($old['description'] === '') {
+            $old['description'] = generate_product_description($old['name'], $old['category']);
+        }
         if ($isNew) {
             $stmt = $pdo->prepare("
                 INSERT INTO products (category, name, price, description, material, image_path, is_active)
@@ -117,7 +120,7 @@ require __DIR__ . '/includes/admin_header.php';
     </div>
     <div class="form-group">
       <label for="description">Description</label>
-      <textarea id="description" name="description" rows="3"><?= e($old['description']) ?></textarea>
+      <textarea id="description" name="description" rows="3" placeholder="Leave blank to write one automatically from the name"><?= e($old['description']) ?></textarea>
     </div>
     <div class="form-group">
       <label for="material">Material</label>
