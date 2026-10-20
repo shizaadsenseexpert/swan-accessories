@@ -7,7 +7,7 @@ function admin_logged_in(): bool {
 
 function require_admin(): void {
     if (!admin_logged_in()) {
-        header('Location: login.php');
+        header('Location: login');
         exit;
     }
 }

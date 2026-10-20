@@ -28,7 +28,7 @@ require __DIR__ . '/includes/header.php';
     </details>
   <?php endforeach; ?>
 
-  <p style="margin-top:2.5em;">Still have a question? <a href="contact.php">Get in touch</a> — we're happy to help.</p>
+  <p style="margin-top:2.5em;">Still have a question? <a href="contact">Get in touch</a> — we're happy to help.</p>
 </div>
 
 <?php require __DIR__ . '/includes/footer.php'; ?>

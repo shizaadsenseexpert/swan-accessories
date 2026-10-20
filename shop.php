@@ -18,9 +18,9 @@ require __DIR__ . '/includes/header.php';
 </div>
 
 <div class="filter-bar">
-  <a href="shop.php" class="<?= $cat === null ? 'active' : '' ?>">All</a>
+  <a href="shop" class="<?= $cat === null ? 'active' : '' ?>">All</a>
   <?php foreach (all_categories() as $c): ?>
-    <a href="shop.php?cat=<?= e($c) ?>" class="<?= $cat === $c ? 'active' : '' ?>"><?= e(category_label($c)) ?></a>
+    <a href="shop?cat=<?= e($c) ?>" class="<?= $cat === $c ? 'active' : '' ?>"><?= e(category_label($c)) ?></a>
   <?php endforeach; ?>
 </div>
 
@@ -30,14 +30,14 @@ require __DIR__ . '/includes/header.php';
 <div class="product-grid">
   <?php foreach ($products as $p): ?>
     <div class="product-card">
-      <a class="thumb" href="product.php?id=<?= (int)$p['id'] ?>">
+      <a class="thumb" href="product?id=<?= (int)$p['id'] ?>">
         <img src="<?= e($p['image_path']) ?>" alt="<?= e($p['name']) ?>">
       </a>
       <div class="info">
         <span class="cat-tag"><?= e(category_label($p['category'])) ?></span>
-        <h3><a href="product.php?id=<?= (int)$p['id'] ?>"><?= e($p['name']) ?></a></h3>
+        <h3><a href="product?id=<?= (int)$p['id'] ?>"><?= e($p['name']) ?></a></h3>
         <div class="price"><?= money($p['price']) ?></div>
-        <form action="cart.php" method="post">
+        <form action="cart" method="post">
           <input type="hidden" name="action" value="add">
           <input type="hidden" name="product_id" value="<?= (int)$p['id'] ?>">
           <button type="submit" class="btn btn-outline btn-block">Add to Cart</button>

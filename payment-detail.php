@@ -19,7 +19,7 @@ require __DIR__ . '/includes/header.php';
   <p>Once you place an order, you'll see an order confirmation on screen with your order number and total. If anything is unclear, you're welcome to confirm your order with us directly over <a href="<?= e(whatsapp_link()) ?>" target="_blank" rel="noopener">WhatsApp</a>.</p>
 
   <h2>Questions?</h2>
-  <p>If you have any questions about payment before placing an order, reach out via our <a href="contact.php">Contact Us</a> page.</p>
+  <p>If you have any questions about payment before placing an order, reach out via our <a href="contact">Contact Us</a> page.</p>
 </div>
 
 <?php require __DIR__ . '/includes/footer.php'; ?>

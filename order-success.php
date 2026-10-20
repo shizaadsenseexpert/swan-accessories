@@ -10,7 +10,7 @@ $stmt->execute([':id' => $orderId]);
 $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$order) {
-    header('Location: index.php');
+    header('Location: ./');
     exit;
 }
 
@@ -47,7 +47,7 @@ require __DIR__ . '/includes/header.php';
     <p style="margin:4px 0;"><strong>Phone:</strong> <?= e($order['phone']) ?></p>
   </div>
 
-  <a href="shop.php" class="btn btn-primary" style="margin-top:20px;">Continue Shopping</a>
+  <a href="shop" class="btn btn-primary" style="margin-top:20px;">Continue Shopping</a>
 </div>
 
 <?php require __DIR__ . '/includes/footer.php'; ?>

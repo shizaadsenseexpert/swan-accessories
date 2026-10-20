@@ -8,7 +8,7 @@ if (!$product || !$product['is_active']) {
     http_response_code(404);
     $pageTitle = 'Not Found';
     require __DIR__ . '/includes/header.php';
-    echo '<div class="empty-state">Sorry, we couldn\'t find that product.<br><a class="btn btn-primary" style="margin-top:20px" href="shop.php">Back to Shop</a></div>';
+    echo '<div class="empty-state">Sorry, we couldn\'t find that product.<br><a class="btn btn-primary" style="margin-top:20px" href="shop">Back to Shop</a></div>';
     require __DIR__ . '/includes/footer.php';
     exit;
 }
@@ -34,7 +34,7 @@ require __DIR__ . '/includes/header.php';
     </div>
     <p class="desc"><?= e($product['description']) ?></p>
 
-    <form action="cart.php" method="post">
+    <form action="cart" method="post">
       <input type="hidden" name="action" value="add">
       <input type="hidden" name="product_id" value="<?= (int)$product['id'] ?>">
       <div class="qty-row">
@@ -53,12 +53,12 @@ require __DIR__ . '/includes/header.php';
 <div class="product-grid">
   <?php foreach ($related as $p): ?>
     <div class="product-card">
-      <a class="thumb" href="product.php?id=<?= (int)$p['id'] ?>">
+      <a class="thumb" href="product?id=<?= (int)$p['id'] ?>">
         <img src="<?= e($p['image_path']) ?>" alt="<?= e($p['name']) ?>">
       </a>
       <div class="info">
         <span class="cat-tag"><?= e(category_label($p['category'])) ?></span>
-        <h3><a href="product.php?id=<?= (int)$p['id'] ?>"><?= e($p['name']) ?></a></h3>
+        <h3><a href="product?id=<?= (int)$p['id'] ?>"><?= e($p['name']) ?></a></h3>
         <div class="material-tag"><?= e($p['material']) ?></div>
         <div class="price"><?= money($p['price']) ?></div>
       </div>

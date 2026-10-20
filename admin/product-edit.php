@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':id' => $id,
             ]);
         }
-        header('Location: products.php');
+        header('Location: products');
         exit;
     }
 }
@@ -86,7 +86,7 @@ require __DIR__ . '/includes/admin_header.php';
 
 <div class="admin-topbar">
   <h1><?= $isNew ? 'Add Product' : 'Edit Product' ?></h1>
-  <a href="products.php">&larr; Back to Products</a>
+  <a href="products">&larr; Back to Products</a>
 </div>
 
 <?php if (!empty($errors)): ?>
