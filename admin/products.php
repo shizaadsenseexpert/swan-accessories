@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'toggl
     $id = (int)($_POST['id'] ?? 0);
     $stmt = $pdo->prepare('UPDATE products SET is_active = 1 - is_active WHERE id = :id');
     $stmt->execute([':id' => $id]);
-    header('Location: products.php');
+    header('Location: products');
     exit;
 }
 
@@ -24,13 +24,13 @@ require __DIR__ . '/includes/admin_header.php';
 
 <div class="admin-topbar">
   <h1>Products</h1>
-  <a href="product-edit.php" class="btn btn-primary">+ Add Product</a>
+  <a href="product-edit" class="btn btn-primary">+ Add Product</a>
 </div>
 
 <div class="filter-bar" style="justify-content:flex-start; padding:0 0 20px;">
-  <a href="products.php" class="<?= $cat === null ? 'active' : '' ?>">All</a>
+  <a href="products" class="<?= $cat === null ? 'active' : '' ?>">All</a>
   <?php foreach (all_categories() as $c): ?>
-    <a href="products.php?cat=<?= e($c) ?>" class="<?= $cat === $c ? 'active' : '' ?>"><?= e(category_label($c)) ?></a>
+    <a href="products?cat=<?= e($c) ?>" class="<?= $cat === $c ? 'active' : '' ?>"><?= e(category_label($c)) ?></a>
   <?php endforeach; ?>
 </div>
 
@@ -50,7 +50,7 @@ require __DIR__ . '/includes/admin_header.php';
             </span>
           </td>
           <td class="admin-actions">
-            <a href="product-edit.php?id=<?= (int)$p['id'] ?>">Edit</a>
+            <a href="product-edit?id=<?= (int)$p['id'] ?>">Edit</a>
             <form method="post">
               <input type="hidden" name="action" value="toggle">
               <input type="hidden" name="id" value="<?= (int)$p['id'] ?>">

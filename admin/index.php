@@ -43,7 +43,7 @@ require __DIR__ . '/includes/admin_header.php';
           <td><?= money($o['total']) ?></td>
           <td><span class="status-badge status-<?= e($o['status']) ?>"><?= e($o['status']) ?></span></td>
           <td><?= e($o['created_at']) ?></td>
-          <td><a href="order.php?id=<?= (int)$o['id'] ?>">View</a></td>
+          <td><a href="order?id=<?= (int)$o['id'] ?>">View</a></td>
         </tr>
       <?php endforeach; ?>
     </tbody>

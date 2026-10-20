@@ -28,9 +28,9 @@ require __DIR__ . '/includes/admin_header.php';
 </div>
 
 <div class="filter-bar" style="justify-content:flex-start; padding:0 0 20px;">
-  <a href="orders.php" class="<?= $statusFilter === '' ? 'active' : '' ?>">All</a>
+  <a href="orders" class="<?= $statusFilter === '' ? 'active' : '' ?>">All</a>
   <?php foreach ($validStatuses as $s): ?>
-    <a href="orders.php?status=<?= e($s) ?>" class="<?= $statusFilter === $s ? 'active' : '' ?>"><?= ucfirst($s) ?></a>
+    <a href="orders?status=<?= e($s) ?>" class="<?= $statusFilter === $s ? 'active' : '' ?>"><?= ucfirst($s) ?></a>
   <?php endforeach; ?>
 </div>
 
@@ -49,7 +49,7 @@ require __DIR__ . '/includes/admin_header.php';
           <td><?= money($o['total']) ?></td>
           <td><span class="status-badge status-<?= e($o['status']) ?>"><?= e($o['status']) ?></span></td>
           <td><?= e($o['created_at']) ?></td>
-          <td><a href="order.php?id=<?= (int)$o['id'] ?>">View</a></td>
+          <td><a href="order?id=<?= (int)$o['id'] ?>">View</a></td>
         </tr>
       <?php endforeach; ?>
     </tbody>

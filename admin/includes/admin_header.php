@@ -14,11 +14,11 @@
   <aside class="admin-sidebar">
     <span class="brand-mark">Swan</span><span class="brand-sub">Admin</span>
     <nav>
-      <a href="index.php" class="<?= ($activeNav ?? '') === 'dashboard' ? 'active' : '' ?>">Dashboard</a>
-      <a href="orders.php" class="<?= ($activeNav ?? '') === 'orders' ? 'active' : '' ?>">Orders</a>
-      <a href="products.php" class="<?= ($activeNav ?? '') === 'products' ? 'active' : '' ?>">Products</a>
-      <a href="../index.php" target="_blank">View Site &rarr;</a>
-      <form action="logout.php" method="post" style="margin-top:20px;">
+      <a href="./" class="<?= ($activeNav ?? '') === 'dashboard' ? 'active' : '' ?>">Dashboard</a>
+      <a href="orders" class="<?= ($activeNav ?? '') === 'orders' ? 'active' : '' ?>">Orders</a>
+      <a href="products" class="<?= ($activeNav ?? '') === 'products' ? 'active' : '' ?>">Products</a>
+      <a href="../" target="_blank">View Site &rarr;</a>
+      <form action="logout" method="post" style="margin-top:20px;">
         <button type="submit" class="link-btn" style="color:#D8CDBF;">Log out</button>
       </form>
     </nav>

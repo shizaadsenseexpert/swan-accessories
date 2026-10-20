@@ -2,9 +2,14 @@
 require_once __DIR__ . '/includes/functions.php';
 $basePath = '';
 
-$cat = $_GET['cat'] ?? null;
-if ($cat !== null && !in_array($cat, all_categories(), true)) {
-    $cat = null;
+// Old links like /shop?cat=rings move to /rings.
+if (isset($_GET['cat'])) {
+    redirect_permanent(in_array($_GET['cat'], all_categories(), true) ? category_url($_GET['cat']) : '/shop');
+}
+
+$cat = isset($_GET['category']) ? category_from_slug($_GET['category']) : null;
+if (isset($_GET['category']) && $cat === null) {
+    redirect_permanent('/shop');
 }
 $pageTitle = $cat ? category_label($cat) : 'Shop All';
 $products = get_products($cat);
@@ -18,9 +23,9 @@ require __DIR__ . '/includes/header.php';
 </div>
 
 <div class="filter-bar">
-  <a href="shop.php" class="<?= $cat === null ? 'active' : '' ?>">All</a>
+  <a href="/shop" class="<?= $cat === null ? 'active' : '' ?>">All</a>
   <?php foreach (all_categories() as $c): ?>
-    <a href="shop.php?cat=<?= e($c) ?>" class="<?= $cat === $c ? 'active' : '' ?>"><?= e(category_label($c)) ?></a>
+    <a href="<?= e(category_url($c)) ?>" class="<?= $cat === $c ? 'active' : '' ?>"><?= e(category_label($c)) ?></a>
   <?php endforeach; ?>
 </div>
 
@@ -30,14 +35,14 @@ require __DIR__ . '/includes/header.php';
 <div class="product-grid">
   <?php foreach ($products as $p): ?>
     <div class="product-card">
-      <a class="thumb" href="product.php?id=<?= (int)$p['id'] ?>">
-        <img src="<?= e($p['image_path']) ?>" alt="<?= e($p['name']) ?>">
+      <a class="thumb" href="<?= e(product_url($p)) ?>">
+        <img src="<?= e(asset_url($p['image_path'])) ?>" alt="<?= e($p['name']) ?>">
       </a>
       <div class="info">
         <span class="cat-tag"><?= e(category_label($p['category'])) ?></span>
-        <h3><a href="product.php?id=<?= (int)$p['id'] ?>"><?= e($p['name']) ?></a></h3>
+        <h3><a href="<?= e(product_url($p)) ?>"><?= e($p['name']) ?></a></h3>
         <div class="price"><?= money($p['price']) ?></div>
-        <form action="cart.php" method="post">
+        <form action="/cart" method="post">
           <input type="hidden" name="action" value="add">
           <input type="hidden" name="product_id" value="<?= (int)$p['id'] ?>">
           <button type="submit" class="btn btn-outline btn-block">Add to Cart</button>

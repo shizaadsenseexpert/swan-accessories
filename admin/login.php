@@ -3,7 +3,7 @@ require_once __DIR__ . '/includes/auth.php';
 require_once __DIR__ . '/../includes/functions.php';
 
 if (admin_logged_in()) {
-    header('Location: index.php');
+    header('Location: ./');
     exit;
 }
 
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     if ($username === ADMIN_USERNAME && password_verify($password, ADMIN_PASSWORD_HASH)) {
         $_SESSION['is_admin'] = true;
-        header('Location: index.php');
+        header('Location: ./');
         exit;
     }
     $error = 'Incorrect username or password.';

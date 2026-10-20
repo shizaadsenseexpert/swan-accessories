@@ -33,7 +33,7 @@ require __DIR__ . '/includes/header.php';
   </ol>
 
   <h2>Questions?</h2>
-  <p>Reach out through our <a href="contact.php">Contact Us</a> page — we're happy to help sort things out.</p>
+  <p>Reach out through our <a href="/contact">Contact Us</a> page — we're happy to help sort things out.</p>
 </div>
 
 <?php require __DIR__ . '/includes/footer.php'; ?>

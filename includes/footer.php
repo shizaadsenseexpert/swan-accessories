@@ -28,28 +28,28 @@
 
     <div class="footer-col">
       <h4>Shop</h4>
-      <a href="<?= $basePath ?? '' ?>/shop.php">Shop All</a>
-      <a href="<?= $basePath ?? '' ?>/shop.php?cat=bangles">Bangles</a>
-      <a href="<?= $basePath ?? '' ?>/shop.php?cat=bracelet">Bracelets</a>
-      <a href="<?= $basePath ?? '' ?>/shop.php?cat=earrings">Earrings</a>
-      <a href="<?= $basePath ?? '' ?>/shop.php?cat=pendants">Pendants</a>
-      <a href="<?= $basePath ?? '' ?>/shop.php?cat=rings">Rings</a>
+      <a href="<?= $basePath ?? '' ?>/shop">Shop All</a>
+      <a href="<?= $basePath ?? '' ?>/bangles">Bangles</a>
+      <a href="<?= $basePath ?? '' ?>/bracelets">Bracelets</a>
+      <a href="<?= $basePath ?? '' ?>/earrings">Earrings</a>
+      <a href="<?= $basePath ?? '' ?>/pendants">Pendants</a>
+      <a href="<?= $basePath ?? '' ?>/rings">Rings</a>
     </div>
 
     <div class="footer-col">
       <h4>About Swan Accessories</h4>
-      <a href="<?= $basePath ?? '' ?>/about.php">About Us</a>
-      <a href="<?= $basePath ?? '' ?>/contact.php">Contact Us</a>
+      <a href="<?= $basePath ?? '' ?>/about">About Us</a>
+      <a href="<?= $basePath ?? '' ?>/contact">Contact Us</a>
     </div>
 
     <div class="footer-col">
       <h4>Information</h4>
-      <a href="<?= $basePath ?? '' ?>/faqs.php">FAQs</a>
-      <a href="<?= $basePath ?? '' ?>/payment-detail.php">Payment Details</a>
-      <a href="<?= $basePath ?? '' ?>/shipping-detail.php">Shipping Details</a>
-      <a href="<?= $basePath ?? '' ?>/terms-of-service.php">Terms of Service</a>
-      <a href="<?= $basePath ?? '' ?>/refund-policy.php">Refund &amp; Exchange Policy</a>
-      <a href="<?= $basePath ?? '' ?>/bangle-size-guide.php">Bangle Size Guide</a>
+      <a href="<?= $basePath ?? '' ?>/faqs">FAQs</a>
+      <a href="<?= $basePath ?? '' ?>/payment-detail">Payment Details</a>
+      <a href="<?= $basePath ?? '' ?>/shipping-detail">Shipping Details</a>
+      <a href="<?= $basePath ?? '' ?>/terms-of-service">Terms of Service</a>
+      <a href="<?= $basePath ?? '' ?>/refund-policy">Refund &amp; Exchange Policy</a>
+      <a href="<?= $basePath ?? '' ?>/bangle-size-guide">Bangle Size Guide</a>
     </div>
 
     <p class="footer-note">&copy; <?= date('Y') ?> Swan Accessories. All rights reserved.</p>

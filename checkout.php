@@ -5,7 +5,7 @@ $pageTitle = 'Checkout';
 
 $cart = cart_details();
 if (empty($cart['items'])) {
-    header('Location: cart.php');
+    header('Location: cart');
     exit;
 }
 
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $pdo->commit();
             cart_clear();
-            header('Location: order-success.php?order=' . $orderId);
+            header('Location: order-success?order=' . $orderId);
             exit;
         } catch (Exception $e) {
             $pdo->rollBack();
@@ -83,7 +83,7 @@ require __DIR__ . '/includes/header.php';
       </div>
     <?php endif; ?>
 
-    <form action="checkout.php" method="post" style="margin-top:24px;">
+    <form action="/checkout" method="post" style="margin-top:24px;">
       <div class="form-group">
         <label for="name">Full Name</label>
         <input type="text" id="name" name="name" value="<?= e($old['name']) ?>" required>

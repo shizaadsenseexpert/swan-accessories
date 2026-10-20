@@ -1,0 +1,31 @@
+# Clean URLs: serve /shop from shop.php and send old .php links to the clean URL.
+Options -MultiViews
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# /index.php or /admin/index.php -> / or /admin/ (GET only so form posts keep working)
+RewriteCond %{REQUEST_METHOD} ^(GET|HEAD)$
+RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.php[\s?] [NC]
+RewriteRule ^ /%1 [R=301,L,NE]
+
+# /shop.php?cat=rings -> /shop?cat=rings (query string is kept)
+RewriteCond %{REQUEST_METHOD} ^(GET|HEAD)$
+RewriteCond %{THE_REQUEST} \s/+([^?\s]+)\.php[\s?] [NC]
+RewriteRule ^ /%1 [R=301,L,NE]
+
+# /home -> home page
+RewriteRule ^home/?$ index.php [L]
+
+# /bangles, /bracelets, /earrings, /pendants, /rings -> category pages
+RewriteRule ^(bangles|bracelets|earrings|pendants|rings)/?$ shop.php?category=$1 [L,QSA]
+
+# /product/5-gold-bangle -> product page
+RewriteRule ^product/([0-9]+)(-[^/]*)?/?$ product.php?id=$1 [L,QSA]
+
+# /shop -> shop.php internally
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.+)$ $1.php [L]
+</IfModule>

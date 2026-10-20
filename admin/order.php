@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare('UPDATE orders SET status = :status WHERE id = :id');
         $stmt->execute([':status' => $newStatus, ':id' => $id]);
     }
-    header('Location: order.php?id=' . $id);
+    header('Location: order?id=' . $id);
     exit;
 }
 
@@ -22,7 +22,7 @@ $stmt->execute([':id' => $id]);
 $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$order) {
-    header('Location: orders.php');
+    header('Location: orders');
     exit;
 }
 
@@ -37,7 +37,7 @@ require __DIR__ . '/includes/admin_header.php';
 
 <div class="admin-topbar">
   <h1>Order #<?= (int)$order['id'] ?></h1>
-  <a href="orders.php">&larr; Back to Orders</a>
+  <a href="orders">&larr; Back to Orders</a>
 </div>
 
 <div class="admin-card">
