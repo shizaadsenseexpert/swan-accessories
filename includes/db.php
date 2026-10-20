@@ -218,19 +218,73 @@ function product_description_map(): array {
     ];
 }
 
-// Fills in the description for products still using the old generic
-// placeholder text, without touching descriptions an admin has written.
+// Writes a short description from a product's name and category, for
+// products that aren't in product_description_map() (e.g. added in admin).
+function generate_product_description(string $name, string $category): string {
+    $n = strtolower($name);
+    $features = [
+        '/kundan/'          => 'traditional kundan stones',
+        '/pearl/'           => 'lustrous pearls',
+        '/oxidi[sz]ed/'     => 'an antique oxidized finish',
+        '/enamel/'          => 'glossy enamel detailing',
+        '/crystal/'         => 'sparkling crystals',
+        '/zircon/'          => 'sparkling zircons',
+        '/stone/'           => 'eye-catching stones',
+        '/butterfly/'       => 'a delicate butterfly motif',
+        '/heart/'           => 'a sweet heart motif',
+        '/flower|floral|daisy|\brose\b(?! gold)/' => 'a pretty floral design',
+        '/leaf/'            => 'a graceful leaf design',
+        '/moon/'            => 'a dreamy moon motif',
+        '/\bstars?\b/'      => 'a shining star motif',
+        '/rose gold/'       => 'a soft rose gold tone',
+        '/gold/'            => 'a warm gold tone',
+        '/silver/'          => 'a polished silver tone',
+    ];
+    $picked = [];
+    foreach ($features as $pattern => $phrase) {
+        if (preg_match($pattern, $n)) {
+            $picked[] = $phrase;
+            // "rose gold" already covers the gold tone
+            if ($pattern === '/rose gold/') unset($features['/gold/']);
+        }
+        if (count($picked) === 2) break;
+    }
+
+    $lines = [
+        'bangles'  => 'Easy to stack and comfortable for festive or everyday wear.',
+        'bracelet' => 'A graceful finishing touch for your wrist, day or night.',
+        'earrings' => 'Lightweight and comfortable enough to wear all day.',
+        'pendants' => 'Hangs beautifully on its chain and makes a thoughtful gift.',
+        'rings'    => 'A stylish accent to wear on its own or stacked.',
+    ];
+    $second = preg_match('/kundan|chandbali|jhumka|bridal|polki|jadau/', $n)
+        ? 'Perfect for weddings, mehndis and Eid.'
+        : ($lines[$category] ?? 'A lovely addition to your jewellery collection.');
+
+    if (empty($picked)) {
+        return trim($name) . ' from our ' . category_label($category) . ' collection. ' . $second;
+    }
+    return trim($name) . ' featuring ' . implode(' and ', $picked) . '. ' . $second;
+}
+
+function is_placeholder_description(string $description): bool {
+    $description = trim($description);
+    return $description === '' || preg_match('/^A beautiful piece from our .+ collection\.$/', $description) === 1;
+}
+
+// Fills in the description for every product that is blank or still using
+// the old generic placeholder text, without touching descriptions an admin
+// has written.
 function update_generic_descriptions(PDO $pdo): void {
     $descriptions = product_description_map();
-    $rows = $pdo->query("SELECT id, description, image_path FROM products")->fetchAll(PDO::FETCH_ASSOC);
+    $rows = $pdo->query("SELECT id, name, category, description, image_path FROM products")->fetchAll(PDO::FETCH_ASSOC);
     $update = $pdo->prepare("UPDATE products SET description = :description WHERE id = :id");
 
     foreach ($rows as $row) {
-        if (trim($row['description']) !== '' && !preg_match('/^A beautiful piece from our .+ collection\.$/', trim($row['description']))) continue;
+        if (!is_placeholder_description($row['description'])) continue;
         $filename = strtolower(basename($row['image_path']));
-        if (isset($descriptions[$filename])) {
-            $update->execute([':description' => $descriptions[$filename], ':id' => $row['id']]);
-        }
+        $description = $descriptions[$filename] ?? generate_product_description($row['name'], $row['category']);
+        $update->execute([':description' => $description, ':id' => $row['id']]);
     }
 }
 
@@ -291,7 +345,7 @@ function seed_products(PDO $pdo, ?array $categories = null, bool $skipExisting =
                 ':category'    => $cat,
                 ':name'        => $name,
                 ':price'       => $info['price'],
-                ':description' => $descriptions[strtolower($file)] ?? 'A beautiful piece from our ' . $info['label'] . ' collection.',
+                ':description' => $descriptions[strtolower($file)] ?? generate_product_description($name, $cat),
                 ':image_path'  => $imagePath,
             ]);
         }
