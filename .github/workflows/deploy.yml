@@ -1,0 +1,53 @@
+# Uploads the site to the hosting account over FTP on every push to main.
+#
+# One-time setup (GitHub repo → Settings → Secrets and variables → Actions):
+#   FTP_SERVER      e.g. ftp.swanaccessories.pk
+#   FTP_USERNAME    your FTP / cPanel username
+#   FTP_PASSWORD    your FTP / cPanel password
+#   FTP_SERVER_DIR  optional, folder the site lives in, ending with "/".
+#                   Defaults to "public_html/". Use "./" if your FTP account
+#                   already opens inside the site folder.
+name: Deploy to hosting
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      FTP_SERVER: ${{ secrets.FTP_SERVER }}
+    steps:
+      - name: Check FTP settings
+        if: env.FTP_SERVER == ''
+        run: echo "::warning::FTP_SERVER secret is not set yet, so nothing was deployed. Add the FTP secrets in Settings → Secrets and variables → Actions."
+
+      - uses: actions/checkout@v4
+        if: env.FTP_SERVER != ''
+
+      - name: Upload over FTP
+        if: env.FTP_SERVER != ''
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR || 'public_html/' }}
+          # Only changed files are uploaded. Files that exist only on the
+          # server (the live database, photos uploaded in admin) are never
+          # touched.
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            data/*.sqlite
+            data/*.sqlite-journal
+            includes/config.php
+            router.php
+            Start Website.bat
