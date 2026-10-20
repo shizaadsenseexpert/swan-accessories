@@ -37,7 +37,7 @@ require __DIR__ . '/includes/admin_header.php';
 
 <div class="admin-topbar">
   <h1>Order #<?= (int)$order['id'] ?></h1>
-  <a href="orders">&larr; Back to Orders</a>
+  <a href="orders" class="admin-back">&larr; Back to Orders</a>
 </div>
 
 <div class="admin-card">
@@ -62,6 +62,7 @@ require __DIR__ . '/includes/admin_header.php';
     </form>
   </div>
 
+  <div class="table-scroll">
   <table class="admin-table">
     <thead><tr><th>Item</th><th>Price</th><th>Qty</th><th>Subtotal</th></tr></thead>
     <tbody>
@@ -75,6 +76,7 @@ require __DIR__ . '/includes/admin_header.php';
       <?php endforeach; ?>
     </tbody>
   </table>
+  </div>
   <div class="order-summary" style="box-shadow:none; padding:16px 0 0;">
     <div class="total"><span>Total</span><span><?= money($order['total']) ?></span></div>
   </div>

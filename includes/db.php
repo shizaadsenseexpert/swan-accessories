@@ -27,6 +27,7 @@ function get_db(): PDO {
 }
 
 function migrate_schema(PDO $pdo): void {
+    ensure_deleted_products_table($pdo);
     $columns = $pdo->query("PRAGMA table_info(products)")->fetchAll(PDO::FETCH_ASSOC);
     $hasMaterial = false;
     foreach ($columns as $col) {
@@ -54,6 +55,30 @@ function rename_generic_products(PDO $pdo): void {
         $filename = strtolower(basename($row['image_path']));
         if (isset($names[$filename])) {
             $update->execute([':name' => $names[$filename], ':id' => $row['id']]);
+        }
+    }
+}
+
+// Photos of products an admin deleted, so seeding doesn't add them back.
+function ensure_deleted_products_table(PDO $pdo): void {
+    $pdo->exec("CREATE TABLE IF NOT EXISTS deleted_products (image_path TEXT PRIMARY KEY)");
+}
+
+function delete_product(PDO $pdo, int $id): void {
+    $product = get_product($id);
+    if (!$product) return;
+
+    $pdo->prepare("INSERT OR IGNORE INTO deleted_products (image_path) VALUES (:image_path)")
+        ->execute([':image_path' => $product['image_path']]);
+    $pdo->prepare("DELETE FROM products WHERE id = :id")->execute([':id' => $id]);
+
+    // Remove photos uploaded through admin once no other product uses them.
+    if (strpos(basename($product['image_path']), 'prod_') === 0) {
+        $inUse = $pdo->prepare("SELECT 1 FROM products WHERE image_path = :image_path");
+        $inUse->execute([':image_path' => $product['image_path']]);
+        $file = BASE_PATH . '/' . $product['image_path'];
+        if (!$inUse->fetchColumn() && is_file($file)) {
+            unlink($file);
         }
     }
 }
@@ -99,6 +124,8 @@ function init_schema(PDO $pdo): void {
             subtotal INTEGER NOT NULL
         );
     ");
+
+    ensure_deleted_products_table($pdo);
 }
 
 function product_name_map(): array {
@@ -321,7 +348,10 @@ function seed_products(PDO $pdo, ?array $categories = null, bool $skipExisting =
         INSERT INTO products (category, name, price, description, image_path, is_active)
         VALUES (:category, :name, :price, :description, :image_path, 1)
     ");
-    $exists = $pdo->prepare("SELECT 1 FROM products WHERE image_path = :image_path");
+    $exists = $pdo->prepare("
+        SELECT 1 FROM products WHERE image_path = :image_path
+        UNION SELECT 1 FROM deleted_products WHERE image_path = :image_path
+    ");
 
     foreach ($categories as $cat => $info) {
         $dir = BASE_PATH . '/assets/images/products/' . $cat;

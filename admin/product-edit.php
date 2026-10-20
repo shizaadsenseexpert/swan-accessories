@@ -89,16 +89,16 @@ require __DIR__ . '/includes/admin_header.php';
 
 <div class="admin-topbar">
   <h1><?= $isNew ? 'Add Product' : 'Edit Product' ?></h1>
-  <a href="products">&larr; Back to Products</a>
+  <a href="products" class="admin-back">&larr; Back to Products</a>
 </div>
 
 <?php if (!empty($errors)): ?>
-  <div class="alert alert-error" style="margin:0 0 20px;">
+  <div class="alert alert-error admin-alert">
     <?php foreach ($errors as $err) echo '<div>' . e($err) . '</div>'; ?>
   </div>
 <?php endif; ?>
 
-<div class="admin-card" style="max-width:600px;">
+<div class="admin-card admin-form-card">
   <form method="post" enctype="multipart/form-data">
     <div class="form-group">
       <label for="name">Product Name</label>
@@ -129,12 +129,21 @@ require __DIR__ . '/includes/admin_header.php';
     <div class="form-group">
       <label for="image">Product Image <?= $isNew ? '' : '(leave empty to keep current)' ?></label>
       <?php if (!$isNew && $old['image_path']): ?>
-        <img src="../<?= e($old['image_path']) ?>" style="width:90px;height:90px;object-fit:cover;border-radius:10px;margin-bottom:10px;">
+        <img src="<?= e(asset_url($old['image_path'])) ?>" alt="" class="edit-preview">
       <?php endif; ?>
       <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png,.webp">
     </div>
     <button type="submit" class="btn btn-primary btn-block"><?= $isNew ? 'Add Product' : 'Save Changes' ?></button>
   </form>
+
+  <?php if (!$isNew): ?>
+    <form action="products" method="post" class="danger-zone" onsubmit="return confirm('Delete this product? This cannot be undone.');">
+      <input type="hidden" name="action" value="delete">
+      <input type="hidden" name="id" value="<?= (int)$product['id'] ?>">
+      <span>Remove this product from your store for good.</span>
+      <button type="submit" class="action-btn action-danger">Delete Product</button>
+    </form>
+  <?php endif; ?>
 </div>
 
 <?php require __DIR__ . '/includes/admin_footer.php'; ?>

@@ -27,7 +27,7 @@ require __DIR__ . '/includes/admin_header.php';
   <h1>Orders</h1>
 </div>
 
-<div class="filter-bar" style="justify-content:flex-start; padding:0 0 20px;">
+<div class="admin-tabs admin-tabs-spaced">
   <a href="orders" class="<?= $statusFilter === '' ? 'active' : '' ?>">All</a>
   <?php foreach ($validStatuses as $s): ?>
     <a href="orders?status=<?= e($s) ?>" class="<?= $statusFilter === $s ? 'active' : '' ?>"><?= ucfirst($s) ?></a>
@@ -36,8 +36,9 @@ require __DIR__ . '/includes/admin_header.php';
 
 <div class="admin-card">
   <?php if (empty($orders)): ?>
-    <p style="color:var(--ink-soft);">No orders found.</p>
+    <p class="admin-empty">No orders found.</p>
   <?php else: ?>
+  <div class="table-scroll">
   <table class="admin-table">
     <thead><tr><th>#</th><th>Customer</th><th>City</th><th>Total</th><th>Status</th><th>Placed</th><th></th></tr></thead>
     <tbody>
@@ -54,6 +55,7 @@ require __DIR__ . '/includes/admin_header.php';
       <?php endforeach; ?>
     </tbody>
   </table>
+  </div>
   <?php endif; ?>
 </div>
 

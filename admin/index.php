@@ -30,8 +30,9 @@ require __DIR__ . '/includes/admin_header.php';
 <div class="admin-card">
   <h3>Recent Orders</h3>
   <?php if (empty($recent)): ?>
-    <p style="color:var(--ink-soft);">No orders yet.</p>
+    <p class="admin-empty">No orders yet.</p>
   <?php else: ?>
+  <div class="table-scroll">
   <table class="admin-table">
     <thead><tr><th>#</th><th>Customer</th><th>Phone</th><th>Total</th><th>Status</th><th>Placed</th><th></th></tr></thead>
     <tbody>
@@ -48,6 +49,7 @@ require __DIR__ . '/includes/admin_header.php';
       <?php endforeach; ?>
     </tbody>
   </table>
+  </div>
   <?php endif; ?>
 </div>
 
