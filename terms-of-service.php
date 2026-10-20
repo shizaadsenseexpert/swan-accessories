@@ -21,13 +21,13 @@ require __DIR__ . '/includes/header.php';
   <p>All prices are listed in Pakistani Rupees (PKR) and are subject to change without prior notice. The price shown at checkout at the time you place your order is the price you'll be charged.</p>
 
   <h2>4. Payment</h2>
-  <p>Orders are currently fulfilled via Cash on Delivery. See our <a href="payment-detail">Payment Details</a> page for more.</p>
+  <p>Orders are currently fulfilled via Cash on Delivery. See our <a href="/payment-detail">Payment Details</a> page for more.</p>
 
   <h2>5. Delivery</h2>
-  <p>Delivery timeframes given are estimates, not guarantees, and may be affected by courier delays outside our control. See our <a href="shipping-detail">Shipping Details</a> page.</p>
+  <p>Delivery timeframes given are estimates, not guarantees, and may be affected by courier delays outside our control. See our <a href="/shipping-detail">Shipping Details</a> page.</p>
 
   <h2>6. Exchanges &amp; Refunds</h2>
-  <p>Our exchange terms are outlined in our <a href="refund-policy">Refund &amp; Exchange Policy</a>.</p>
+  <p>Our exchange terms are outlined in our <a href="/refund-policy">Refund &amp; Exchange Policy</a>.</p>
 
   <h2>7. Use of This Website</h2>
   <p>You agree to use this website only for lawful purposes and not to attempt to disrupt or misuse it in any way.</p>
@@ -36,7 +36,7 @@ require __DIR__ . '/includes/header.php';
   <p>We may update these terms from time to time. Continued use of the website after changes are posted means you accept the updated terms.</p>
 
   <h2>9. Contact</h2>
-  <p>Questions about these terms? Reach out via our <a href="contact">Contact Us</a> page.</p>
+  <p>Questions about these terms? Reach out via our <a href="/contact">Contact Us</a> page.</p>
 </div>
 
 <?php require __DIR__ . '/includes/footer.php'; ?>

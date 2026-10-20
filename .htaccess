@@ -15,6 +15,15 @@ RewriteCond %{REQUEST_METHOD} ^(GET|HEAD)$
 RewriteCond %{THE_REQUEST} \s/+([^?\s]+)\.php[\s?] [NC]
 RewriteRule ^ /%1 [R=301,L,NE]
 
+# /home -> home page
+RewriteRule ^home/?$ index.php [L]
+
+# /bangles, /bracelets, /earrings, /pendants, /rings -> category pages
+RewriteRule ^(bangles|bracelets|earrings|pendants|rings)/?$ shop.php?category=$1 [L,QSA]
+
+# /product/5-gold-bangle -> product page
+RewriteRule ^product/([0-9]+)(-[^/]*)?/?$ product.php?id=$1 [L,QSA]
+
 # /shop -> shop.php internally
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f

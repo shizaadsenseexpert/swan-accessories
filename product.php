@@ -8,9 +8,15 @@ if (!$product || !$product['is_active']) {
     http_response_code(404);
     $pageTitle = 'Not Found';
     require __DIR__ . '/includes/header.php';
-    echo '<div class="empty-state">Sorry, we couldn\'t find that product.<br><a class="btn btn-primary" style="margin-top:20px" href="shop">Back to Shop</a></div>';
+    echo '<div class="empty-state">Sorry, we couldn\'t find that product.<br><a class="btn btn-primary" style="margin-top:20px" href="/shop">Back to Shop</a></div>';
     require __DIR__ . '/includes/footer.php';
     exit;
+}
+
+// Old links like /product?id=5 move to /product/5-product-name.
+$requestPath = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH);
+if ($requestPath !== product_url($product)) {
+    redirect_permanent(product_url($product));
 }
 
 $pageTitle = $product['name'];
@@ -22,7 +28,7 @@ require __DIR__ . '/includes/header.php';
 
 <div class="product-detail">
   <div class="image-wrap">
-    <img src="<?= e($product['image_path']) ?>" alt="<?= e($product['name']) ?>">
+    <img src="<?= e(asset_url($product['image_path'])) ?>" alt="<?= e($product['name']) ?>">
   </div>
   <div>
     <span class="cat-tag"><?= e(category_label($product['category'])) ?></span>
@@ -34,7 +40,7 @@ require __DIR__ . '/includes/header.php';
     </div>
     <p class="desc"><?= e($product['description']) ?></p>
 
-    <form action="cart" method="post">
+    <form action="/cart" method="post">
       <input type="hidden" name="action" value="add">
       <input type="hidden" name="product_id" value="<?= (int)$product['id'] ?>">
       <div class="qty-row">
@@ -53,12 +59,12 @@ require __DIR__ . '/includes/header.php';
 <div class="product-grid">
   <?php foreach ($related as $p): ?>
     <div class="product-card">
-      <a class="thumb" href="product?id=<?= (int)$p['id'] ?>">
-        <img src="<?= e($p['image_path']) ?>" alt="<?= e($p['name']) ?>">
+      <a class="thumb" href="<?= e(product_url($p)) ?>">
+        <img src="<?= e(asset_url($p['image_path'])) ?>" alt="<?= e($p['name']) ?>">
       </a>
       <div class="info">
         <span class="cat-tag"><?= e(category_label($p['category'])) ?></span>
-        <h3><a href="product?id=<?= (int)$p['id'] ?>"><?= e($p['name']) ?></a></h3>
+        <h3><a href="<?= e(product_url($p)) ?>"><?= e($p['name']) ?></a></h3>
         <div class="material-tag"><?= e($p['material']) ?></div>
         <div class="price"><?= money($p['price']) ?></div>
       </div>

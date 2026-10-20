@@ -13,17 +13,17 @@
 <body>
 <header class="site-header">
   <div class="header-inner">
-    <a class="brand" href="<?= $basePath ?? '' ?>/">
+    <a class="brand" href="<?= $basePath ?? '' ?>/home">
       <span class="brand-mark">Swan</span><span class="brand-sub">Accessories</span>
     </a>
     <nav class="main-nav" id="mainNav">
-      <a href="<?= $basePath ?? '' ?>/">Home</a>
+      <a href="<?= $basePath ?? '' ?>/home">Home</a>
       <a href="<?= $basePath ?? '' ?>/shop">Shop</a>
-      <a href="<?= $basePath ?? '' ?>/shop?cat=bangles">Bangles</a>
-      <a href="<?= $basePath ?? '' ?>/shop?cat=bracelet">Bracelets</a>
-      <a href="<?= $basePath ?? '' ?>/shop?cat=earrings">Earrings</a>
-      <a href="<?= $basePath ?? '' ?>/shop?cat=pendants">Pendants</a>
-      <a href="<?= $basePath ?? '' ?>/shop?cat=rings">Rings</a>
+      <a href="<?= $basePath ?? '' ?>/bangles">Bangles</a>
+      <a href="<?= $basePath ?? '' ?>/bracelets">Bracelets</a>
+      <a href="<?= $basePath ?? '' ?>/earrings">Earrings</a>
+      <a href="<?= $basePath ?? '' ?>/pendants">Pendants</a>
+      <a href="<?= $basePath ?? '' ?>/rings">Rings</a>
     </nav>
     <div class="header-actions">
       <a class="cart-link" href="<?= $basePath ?? '' ?>/cart">

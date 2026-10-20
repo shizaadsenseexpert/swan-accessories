@@ -31,23 +31,23 @@ require __DIR__ . '/includes/header.php';
   <?php if (empty($cart['items'])): ?>
     <div class="empty-state">
       Your cart is empty.<br>
-      <a class="btn btn-primary" style="margin-top:20px" href="shop">Start Shopping</a>
+      <a class="btn btn-primary" style="margin-top:20px" href="/shop">Start Shopping</a>
     </div>
   <?php else: ?>
     <?php foreach ($cart['items'] as $item): $p = $item['product']; ?>
       <div class="cart-row">
-        <img src="<?= e($p['image_path']) ?>" alt="<?= e($p['name']) ?>">
+        <img src="<?= e(asset_url($p['image_path'])) ?>" alt="<?= e($p['name']) ?>">
         <div>
           <div class="name"><?= e($p['name']) ?></div>
           <div class="cat"><?= e(category_label($p['category'])) ?> · <?= money($p['price']) ?></div>
         </div>
-        <form action="cart" method="post" style="display:flex; align-items:center; gap:8px;">
+        <form action="/cart" method="post" style="display:flex; align-items:center; gap:8px;">
           <input type="hidden" name="action" value="update">
           <input type="hidden" name="product_id" value="<?= (int)$p['id'] ?>">
           <input type="number" name="qty" value="<?= (int)$item['qty'] ?>" min="0" max="20" onchange="this.form.submit()">
         </form>
         <div><?= money($item['subtotal']) ?></div>
-        <form action="cart" method="post">
+        <form action="/cart" method="post">
           <input type="hidden" name="action" value="remove">
           <input type="hidden" name="product_id" value="<?= (int)$p['id'] ?>">
           <button type="submit" class="remove">Remove</button>
@@ -61,8 +61,8 @@ require __DIR__ . '/includes/header.php';
     </div>
 
     <div style="margin-top:30px; display:flex; gap:14px; flex-wrap:wrap;">
-      <a href="shop" class="btn btn-outline">Continue Shopping</a>
-      <a href="checkout" class="btn btn-primary">Proceed to Checkout</a>
+      <a href="/shop" class="btn btn-outline">Continue Shopping</a>
+      <a href="/checkout" class="btn btn-primary">Proceed to Checkout</a>
     </div>
   <?php endif; ?>
 </div>

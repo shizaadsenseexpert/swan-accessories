@@ -98,3 +98,39 @@ function whatsapp_link(string $message = ''): string {
     }
     return $url;
 }
+
+function slugify(string $text): string {
+    $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9]+/', '-', $text), '-'));
+    return $slug !== '' ? $slug : 'item';
+}
+
+// URL slug for each category key (e.g. /bracelets shows the 'bracelet' category).
+function category_slug(string $cat): string {
+    return $cat === 'bracelet' ? 'bracelets' : $cat;
+}
+
+function category_from_slug(string $slug): ?string {
+    foreach (all_categories() as $cat) {
+        if (category_slug($cat) === $slug) {
+            return $cat;
+        }
+    }
+    return null;
+}
+
+function category_url(string $cat): string {
+    return '/' . category_slug($cat);
+}
+
+function product_url(array $product): string {
+    return '/product/' . (int)$product['id'] . '-' . slugify($product['name']);
+}
+
+function asset_url(string $path): string {
+    return '/' . ltrim($path, '/');
+}
+
+function redirect_permanent(string $url): void {
+    header('Location: ' . $url, true, 301);
+    exit;
+}

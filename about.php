@@ -21,7 +21,7 @@ require __DIR__ . '/includes/header.php';
   </ul>
 
   <h2>Get in Touch</h2>
-  <p>Have a question before you order, or need help with an existing one? Visit our <a href="contact">Contact Us</a> page — we're happy to help.</p>
+  <p>Have a question before you order, or need help with an existing one? Visit our <a href="/contact">Contact Us</a> page — we're happy to help.</p>
 </div>
 
 <?php require __DIR__ . '/includes/footer.php'; ?>

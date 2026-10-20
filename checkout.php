@@ -83,7 +83,7 @@ require __DIR__ . '/includes/header.php';
       </div>
     <?php endif; ?>
 
-    <form action="checkout" method="post" style="margin-top:24px;">
+    <form action="/checkout" method="post" style="margin-top:24px;">
       <div class="form-group">
         <label for="name">Full Name</label>
         <input type="text" id="name" name="name" value="<?= e($old['name']) ?>" required>

@@ -29,11 +29,11 @@
     <div class="footer-col">
       <h4>Shop</h4>
       <a href="<?= $basePath ?? '' ?>/shop">Shop All</a>
-      <a href="<?= $basePath ?? '' ?>/shop?cat=bangles">Bangles</a>
-      <a href="<?= $basePath ?? '' ?>/shop?cat=bracelet">Bracelets</a>
-      <a href="<?= $basePath ?? '' ?>/shop?cat=earrings">Earrings</a>
-      <a href="<?= $basePath ?? '' ?>/shop?cat=pendants">Pendants</a>
-      <a href="<?= $basePath ?? '' ?>/shop?cat=rings">Rings</a>
+      <a href="<?= $basePath ?? '' ?>/bangles">Bangles</a>
+      <a href="<?= $basePath ?? '' ?>/bracelets">Bracelets</a>
+      <a href="<?= $basePath ?? '' ?>/earrings">Earrings</a>
+      <a href="<?= $basePath ?? '' ?>/pendants">Pendants</a>
+      <a href="<?= $basePath ?? '' ?>/rings">Rings</a>
     </div>
 
     <div class="footer-col">
