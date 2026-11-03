@@ -187,6 +187,7 @@ function product_name_map(): array {
         'ring 6.jpeg' => 'Hot Pink Baguette Crystal Band Ring',
         'ring 7.jpeg' => 'Minimal Gold Heart & Bar Ring Set',
         'ring 8.jpeg' => 'Gold Chevron & Stacking Band Ring Set',
+        'ring 9.jpeg' => 'Emerald Green Baguette Crystal Band Ring',
     ];
 }
 
@@ -250,6 +251,7 @@ function product_description_map(): array {
         'ring 6.jpeg' => 'A band lined with hot pink baguette crystals. A vibrant everyday sparkle.',
         'ring 7.jpeg' => 'Minimal gold rings with heart and bar details. Subtle, modern and easy to stack.',
         'ring 8.jpeg' => 'A gold chevron ring with matching stacking bands. Wear them together or on their own.',
+        'ring 9.jpeg' => 'A gold band lined with emerald-green baguette crystals. Rich colour and sparkle for festive and everyday wear.',
     ];
 }
 

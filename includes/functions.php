@@ -127,7 +127,11 @@ function product_url(array $product): string {
 }
 
 function asset_url(string $path): string {
-    return '/' . ltrim($path, '/');
+    $path = ltrim($path, '/');
+    // Version tag so browsers fetch a photo again after it's replaced.
+    $file = BASE_PATH . '/' . $path;
+    $version = is_file($file) ? '?v=' . filemtime($file) : '';
+    return '/' . $path . $version;
 }
 
 function redirect_permanent(string $url): void {
