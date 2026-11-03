@@ -163,6 +163,10 @@ function product_name_map(): array {
         'earring 13.jpeg' => 'Gold Crystal Double Circle Earrings',
         'earring 14.jpeg' => 'Silver Square Hoop Earrings',
         'earring 15.jpeg' => 'Antique Gold Chandbali Earrings',
+        'earring 16.jpeg' => 'Pearl & Black Crystal Wrapped Hoop Earrings',
+        'earring 17.jpeg' => 'Crystal Pinwheel Flower Stud Earrings',
+        'earring 18.jpeg' => 'Pearl Cascade Drop Earrings',
+        'earring 19.jpeg' => 'Turquoise Spike Gold Drop Earrings',
 
         'pendant 1.jpeg' => 'Golden Leaf Vine Ribbon Necklace',
         'pendant 2.jpeg' => 'Golden Beaded Rope Necklace',
@@ -222,6 +226,10 @@ function product_description_map(): array {
         'earring 13.jpeg' => 'Interlinked gold circles set with crystals. A refined everyday-to-evening pair.',
         'earring 14.jpeg' => 'Silver hoops with a contemporary square shape. Clean, modern and easy to wear.',
         'earring 15.jpeg' => 'Antique gold chandbalis with traditional detailing. Made for weddings, mehndis and Eid.',
+        'earring 16.jpeg' => 'Gold hoops wire-wrapped with pearls and faceted black crystals. A striking classic contrast for parties and dawats.',
+        'earring 17.jpeg' => 'Gold studs with clear crystal petals arranged in a pinwheel flower. Sparkly yet subtle for everyday and evening wear.',
+        'earring 18.jpeg' => 'Delicate gold chains with cascading pearls under a crystal stud. Graceful and perfect for weddings and formal events.',
+        'earring 19.jpeg' => 'Turquoise spike drops topped with ribbed gold cones. A bold boho pop of colour for casual outfits.',
 
         'pendant 1.jpeg' => 'A gold necklace with a leaf and vine ribbon design. Graceful and nature-inspired.',
         'pendant 2.jpeg' => 'A golden beaded rope necklace with rich texture. Elevates both plain and embellished outfits.',
@@ -333,7 +341,8 @@ function seed_new_products(PDO $pdo): void {
     seed_products($pdo, ['pendants' => $categories['pendants']], true);
     seed_products($pdo, ['rings' => $categories['rings']], true);
     seed_products($pdo, ['earrings' => $categories['earrings']], true,
-        ['earring 12.jpeg', 'earring 13.jpeg', 'earring 14.jpeg', 'earring 15.jpeg']);
+        ['earring 12.jpeg', 'earring 13.jpeg', 'earring 14.jpeg', 'earring 15.jpeg',
+         'earring 16.jpeg', 'earring 17.jpeg', 'earring 18.jpeg', 'earring 19.jpeg']);
     seed_products($pdo, ['bracelet' => $categories['bracelet']], true,
         ['bracelet 7.jpeg', 'bracelet 8.jpeg', 'bracelet 9.jpeg', 'bracelet 10.jpeg', 'bracelet 11.jpeg']);
     seed_products($pdo, ['bangles' => $categories['bangles']], true, ['bangle 5.jpeg']);
