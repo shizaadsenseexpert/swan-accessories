@@ -169,6 +169,7 @@ function product_name_map(): array {
         'bracelet 9.jpeg' => 'Pink & Pearl Blossom Bracelet',
         'bracelet 10.jpeg' => 'Yellow Daisy Gold Cuff Bracelet',
         'bracelet 11.jpeg' => 'Rose Quartz & Pearl Beaded Bracelet Stack',
+        'bracelet 12.jpeg' => 'White Daisy & Pearl Gold Bracelet',
 
         'earring 1.jpeg' => 'Oxidized Silver Pearl Jhumka Earrings',
         'earring 2.jpeg' => 'Pearl & Crystal Beaded Hoop Earrings',
@@ -252,6 +253,7 @@ function product_description_map(): array {
         'bracelet 9.jpeg' => 'Pink blossoms and pearls on a dainty bracelet. Sweet, feminine and ideal as a gift.',
         'bracelet 10.jpeg' => 'A gold cuff decorated with bright yellow daisies. A sunny statement piece for summer.',
         'bracelet 11.jpeg' => 'A stack of rose quartz and pearl beaded bracelets. Wear them together or style them separately.',
+        'bracelet 12.jpeg' => 'White enamel daisies with sunny yellow centres linked by pearls on a gold chain. Fresh, feminine and perfect for everyday wear.',
 
         'earring 1.jpeg' => 'Oxidized silver jhumkas finished with pearl drops. A traditional favourite for kurtas and festive wear.',
         'earring 2.jpeg' => 'Hoops wrapped in pearls and crystals. Light, elegant and suitable for day or night.',
@@ -403,7 +405,8 @@ function seed_new_products(PDO $pdo): void {
         ['earring 12.jpeg', 'earring 13.jpeg', 'earring 14.jpeg', 'earring 15.jpeg',
          'earring 16.jpeg', 'earring 17.jpeg', 'earring 18.jpeg', 'earring 19.jpeg']);
     seed_products($pdo, ['bracelet' => $categories['bracelet']], true,
-        ['bracelet 7.jpeg', 'bracelet 8.jpeg', 'bracelet 9.jpeg', 'bracelet 10.jpeg', 'bracelet 11.jpeg']);
+        ['bracelet 7.jpeg', 'bracelet 8.jpeg', 'bracelet 9.jpeg', 'bracelet 10.jpeg', 'bracelet 11.jpeg',
+         'bracelet 12.jpeg']);
     seed_products($pdo, ['bangles' => $categories['bangles']], true,
         ['bangle 5.jpeg', 'bangle 6.jpeg', 'bangle 7.jpeg', 'bangle 8.jpeg']);
 }
