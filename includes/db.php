@@ -19,6 +19,8 @@ function get_db(): PDO {
     if ($isNew) {
         init_schema($pdo);
         seed_products($pdo);
+        // Seeding already used the sheet prices.
+        mark_update_applied($pdo, 'inventory-prices-2026-11');
     } else {
         migrate_schema($pdo);
     }
@@ -40,6 +42,7 @@ function migrate_schema(PDO $pdo): void {
 
     rename_generic_products($pdo);
     seed_new_products($pdo);
+    apply_price_updates($pdo);
     update_generic_descriptions($pdo);
 }
 
@@ -137,6 +140,91 @@ function init_schema(PDO $pdo): void {
     ");
 
     ensure_deleted_products_table($pdo);
+}
+
+// Prices from the "Swan Accessories - Inventory" sheet. New installs use them
+// straight away; existing stores get them once (see apply_price_updates), so
+// prices changed later in the admin panel are never overwritten.
+function product_price_map(): array {
+    return [
+        'bangle 1.jpeg' => 1100,
+        'bangle 2.jpeg' => 1200,
+        'bangle 3.jpeg' => 1200,
+        'bangle 4.jpeg' => 1200,
+        'bangle 5.jpeg' => 800,
+        'bracelet 1.jpeg' => 650,
+        'bracelet 2.jpeg' => 650,
+        'bracelet 3.jpeg' => 800,
+        'bracelet 4.jpeg' => 650,
+        'bracelet 5.jpeg' => 800,
+        'bracelet 6.jpeg' => 650,
+        'bracelet 7.jpeg' => 650,
+        'bracelet 8.jpeg' => 800,
+        'bracelet 9.jpeg' => 800,
+        'bracelet 10.jpeg' => 800,
+        'bracelet 11.jpeg' => 650,
+        'earring 1.jpeg' => 650,
+        'earring 2.jpeg' => 700,
+        'earring 3.jpeg' => 500,
+        'earring 4.jpeg' => 650,
+        'earring 5.jpeg' => 500,
+        'earring 6.jpeg' => 500,
+        'earring 7.jpeg' => 500,
+        'earring 8.jpeg' => 500,
+        'earring 9.jpeg' => 500,
+        'earring 10.jpeg' => 800,
+        'earring 11.jpeg' => 500,
+        'earring 12.jpeg' => 500,
+        'earring 13.jpeg' => 500,
+        'earring 14.jpeg' => 500,
+        'earring 15.jpeg' => 550,
+        'pendant 1.jpeg' => 550,
+        'pendant 2.jpeg' => 750,
+        'pendant 3.jpeg' => 550,
+        'pendant 4.jpeg' => 500,
+        'pendant 5.jpeg' => 800,
+        'pendant 6.jpeg' => 650,
+        'pendant 7.jpeg' => 500,
+        'pendant 8.jpeg' => 800,
+        'pendant 9.jpeg' => 650,
+        'pendant 10.jpeg' => 500,
+        'ring 1.jpeg' => 500,
+        'ring 2.jpeg' => 500,
+        'ring 3.jpeg' => 650,
+        'ring 4.jpeg' => 650,
+        'ring 5.jpeg' => 650,
+        'ring 6.jpeg' => 650,
+        'ring 7.jpeg' => 650,
+        'ring 8.jpeg' => 650,
+    ];
+}
+
+function ensure_applied_updates_table(PDO $pdo): void {
+    $pdo->exec("CREATE TABLE IF NOT EXISTS applied_updates (name TEXT PRIMARY KEY, applied_at TEXT NOT NULL DEFAULT (datetime('now')))");
+}
+
+function mark_update_applied(PDO $pdo, string $name): void {
+    ensure_applied_updates_table($pdo);
+    $pdo->prepare("INSERT OR IGNORE INTO applied_updates (name) VALUES (:name)")->execute([':name' => $name]);
+}
+
+function apply_price_updates(PDO $pdo): void {
+    $update = 'inventory-prices-2026-11';
+    ensure_applied_updates_table($pdo);
+    $done = $pdo->prepare("SELECT 1 FROM applied_updates WHERE name = :name");
+    $done->execute([':name' => $update]);
+    if ($done->fetchColumn()) return;
+
+    $prices = product_price_map();
+    $rows = $pdo->query("SELECT id, image_path FROM products")->fetchAll(PDO::FETCH_ASSOC);
+    $set = $pdo->prepare("UPDATE products SET price = :price WHERE id = :id");
+    foreach ($rows as $row) {
+        $filename = strtolower(basename($row['image_path']));
+        if (isset($prices[$filename])) {
+            $set->execute([':price' => $prices[$filename], ':id' => $row['id']]);
+        }
+    }
+    mark_update_applied($pdo, $update);
 }
 
 function product_name_map(): array {
@@ -416,6 +504,7 @@ function seed_products(PDO $pdo, ?array $categories = null, bool $skipExisting =
     $categories = $categories ?? seed_categories();
     $names = product_name_map();
     $descriptions = product_description_map();
+    $prices = product_price_map();
 
     $stmt = $pdo->prepare("
         INSERT INTO products (category, name, price, description, image_path, is_active)
@@ -447,7 +536,7 @@ function seed_products(PDO $pdo, ?array $categories = null, bool $skipExisting =
             $stmt->execute([
                 ':category'    => $cat,
                 ':name'        => $name,
-                ':price'       => $info['price'],
+                ':price'       => $prices[strtolower($file)] ?? $info['price'],
                 ':description' => $descriptions[strtolower($file)] ?? generate_product_description($name, $cat),
                 ':image_path'  => $imagePath,
             ]);
