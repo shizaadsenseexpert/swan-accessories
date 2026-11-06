@@ -20,7 +20,8 @@ require __DIR__ . '/includes/header.php';
   <p>Delivery times may vary slightly during sales, holidays, or due to courier delays outside our control.</p>
 
   <h2>Shipping Charges</h2>
-  <p>Any applicable delivery charges are shown at checkout before you place your order — the total you see is the total you pay.</p>
+  <p>Delivery is a flat <?= money(DELIVERY_FEE) ?> per order, anywhere in Pakistan. Orders of <?= money(FREE_DELIVERY_MIN) ?> or more ship <strong>free</strong>.</p>
+  <p>The delivery charge is shown in your cart and at checkout before you place your order — the total you see is the total you pay.</p>
 
   <h2>Order Tracking</h2>
   <p>After your order is dispatched, we'll share tracking details with you via the phone number provided at checkout. You can also message us on <a href="<?= e(whatsapp_link()) ?>" target="_blank" rel="noopener">WhatsApp</a> anytime for an update.</p>

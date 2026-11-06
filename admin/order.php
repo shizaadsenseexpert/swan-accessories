@@ -78,6 +78,9 @@ require __DIR__ . '/includes/admin_header.php';
   </table>
   </div>
   <div class="order-summary" style="box-shadow:none; padding:16px 0 0;">
+    <?php if ($order['delivery_fee'] !== null): ?>
+      <div class="line"><span>Delivery</span><span><?= delivery_label((int)$order['delivery_fee']) ?></span></div>
+    <?php endif; ?>
     <div class="total"><span>Total</span><span><?= money($order['total']) ?></span></div>
   </div>
 </div>

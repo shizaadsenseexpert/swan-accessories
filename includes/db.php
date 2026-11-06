@@ -36,6 +36,7 @@ function migrate_schema(PDO $pdo): void {
     if (!$hasMaterial) {
         $pdo->exec("ALTER TABLE products ADD COLUMN material TEXT NOT NULL DEFAULT 'Stainless Steel'");
     }
+    ensure_order_delivery_column($pdo);
 
     rename_generic_products($pdo);
     seed_new_products($pdo);
@@ -83,6 +84,15 @@ function delete_product(PDO $pdo, int $id): void {
     }
 }
 
+// Delivery charge per order. Orders placed before delivery charges existed
+// keep NULL here, so their pages don't show a delivery line.
+function ensure_order_delivery_column(PDO $pdo): void {
+    $columns = $pdo->query("PRAGMA table_info(orders)")->fetchAll(PDO::FETCH_COLUMN, 1);
+    if (!in_array('delivery_fee', $columns, true)) {
+        $pdo->exec("ALTER TABLE orders ADD COLUMN delivery_fee INTEGER");
+    }
+}
+
 function init_schema(PDO $pdo): void {
     $pdo->exec("
         CREATE TABLE products (
@@ -108,6 +118,7 @@ function init_schema(PDO $pdo): void {
             notes TEXT NOT NULL DEFAULT '',
             payment_method TEXT NOT NULL DEFAULT 'cod',
             status TEXT NOT NULL DEFAULT 'pending',
+            delivery_fee INTEGER,
             total INTEGER NOT NULL,
             created_at TEXT NOT NULL DEFAULT (datetime('now'))
         );

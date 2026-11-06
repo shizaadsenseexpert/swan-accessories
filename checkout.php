@@ -31,8 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo->beginTransaction();
         try {
             $stmt = $pdo->prepare("
-                INSERT INTO orders (customer_name, phone, address, city, notes, payment_method, status, total)
-                VALUES (:name, :phone, :address, :city, :notes, 'cod', 'pending', :total)
+                INSERT INTO orders (customer_name, phone, address, city, notes, payment_method, status, delivery_fee, total)
+                VALUES (:name, :phone, :address, :city, :notes, 'cod', 'pending', :delivery_fee, :total)
             ");
             $stmt->execute([
                 ':name' => $old['name'],
@@ -40,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':address' => $old['address'],
                 ':city' => $old['city'],
                 ':notes' => $old['notes'],
+                ':delivery_fee' => $cart['delivery'],
                 ':total' => $cart['total'],
             ]);
             $orderId = (int)$pdo->lastInsertId();
@@ -129,6 +130,8 @@ require __DIR__ . '/includes/header.php';
         <span><?= money($item['subtotal']) ?></span>
       </div>
     <?php endforeach; ?>
+    <div class="line subtotal-line"><span>Subtotal</span><span><?= money($cart['subtotal']) ?></span></div>
+    <div class="line"><span>Delivery</span><span><?= delivery_label($cart['delivery']) ?></span></div>
     <div class="total">
       <span>Total</span>
       <span><?= money($cart['total']) ?></span>

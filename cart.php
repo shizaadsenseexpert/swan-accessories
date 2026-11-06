@@ -55,6 +55,15 @@ require __DIR__ . '/includes/header.php';
       </div>
     <?php endforeach; ?>
 
+    <div class="cart-totals">
+      <div class="line"><span>Subtotal</span><span><?= money($cart['subtotal']) ?></span></div>
+      <div class="line"><span>Delivery</span><span><?= delivery_label($cart['delivery']) ?></span></div>
+      <?php if ($cart['delivery'] > 0): ?>
+        <div class="free-delivery-hint">Add <?= money(FREE_DELIVERY_MIN - $cart['subtotal']) ?> more to get <strong>free delivery</strong>.</div>
+      <?php else: ?>
+        <div class="free-delivery-hint is-free">You've unlocked <strong>free delivery</strong>!</div>
+      <?php endif; ?>
+    </div>
     <div class="cart-summary">
       <span>Total</span>
       <span><?= money($cart['total']) ?></span>

@@ -40,6 +40,9 @@ require __DIR__ . '/includes/header.php';
       </div>
     <?php endforeach; ?>
     <div class="order-summary" style="box-shadow:none; padding:0;">
+      <?php if ($order['delivery_fee'] !== null): ?>
+        <div class="line"><span>Delivery</span><span><?= delivery_label((int)$order['delivery_fee']) ?></span></div>
+      <?php endif; ?>
       <div class="total"><span>Total</span><span><?= money($order['total']) ?></span></div>
     </div>
     <hr style="border:none; border-top:1px solid var(--line); margin:18px 0;">
