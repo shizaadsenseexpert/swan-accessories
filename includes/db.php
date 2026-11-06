@@ -207,6 +207,11 @@ function product_name_map(): array {
         'pendant 16.jpeg' => 'Pink & Blue Stick Figure Puzzle Pendant',
         'pendant 17.jpeg' => 'Peach Stick Figure Puzzle Pendant',
         'pendant 18.jpeg' => 'Pink Beaded Rope Necklace',
+        'pendant 19.jpeg' => 'Layered Turquoise Stone Chain Necklace',
+        'pendant 20.jpeg' => 'Mother-of-Pearl Clover Station Necklace',
+        'pendant 21.jpeg' => 'Black Clover Station Necklace',
+        'pendant 22.jpeg' => 'Mother-of-Pearl Rectangle Pendant',
+        'pendant 23.jpeg' => 'Black Onyx Rectangle Pendant',
 
         'ring 1.jpeg' => 'Pearl Cluster Gold Statement Ring',
         'ring 2.jpeg' => 'Red Heart Enamel Fan Ring',
@@ -281,6 +286,11 @@ function product_description_map(): array {
         'pendant 16.jpeg' => 'A puzzle-piece pendant in pink and blue with a cute stick figure. Pair it with the peach piece to share with your best friend.',
         'pendant 17.jpeg' => 'A peach puzzle-piece pendant with a smiling stick figure. Matches the pink and blue piece as a best friends pair.',
         'pendant 18.jpeg' => 'A thick rope necklace woven from pink crystal beads with gold thread. A vibrant statement for weddings, mehndis and Eid.',
+        'pendant 19.jpeg' => 'Three layered antique-tone chains, each with a turquoise stone at the centre. A boho statement that needs no other jewellery.',
+        'pendant 20.jpeg' => 'A gold chain with three mother-of-pearl clover motifs in beaded frames. Soft shimmer for everyday elegance.',
+        'pendant 21.jpeg' => 'A gold chain with three glossy black clover motifs in beaded frames. Classic contrast for day or evening.',
+        'pendant 22.jpeg' => 'A rectangular mother-of-pearl pendant framed in gold on a box chain. Minimal, modern and easy to layer.',
+        'pendant 23.jpeg' => 'A sleek black rectangular pendant framed in gold on a fine chain. Bold minimalism for any outfit.',
 
         'ring 1.jpeg' => 'A gold statement ring topped with a cluster of pearls. Classy and eye-catching.',
         'ring 2.jpeg' => 'A fan-shaped ring with red heart enamel details. Playful and full of charm.',
