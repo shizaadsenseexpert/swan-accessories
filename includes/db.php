@@ -178,6 +178,11 @@ function product_name_map(): array {
         'pendant 8.jpeg' => 'Oxidized Silver Floral Chandbali Necklace',
         'pendant 9.jpeg' => 'Best Friends Three-Piece Split Heart Pendant Set',
         'pendant 10.jpeg' => 'Sister Love You to the Moon Pendant',
+        'pendant 11.jpeg' => 'Mom Love You to the Moon & Back Pendant',
+        'pendant 12.jpeg' => 'Crystal Bezel Curved Bar Necklace',
+        'pendant 13.jpeg' => 'Red Stone Heart Pendant',
+        'pendant 14.jpeg' => 'Turquoise Stone Heart Pendant',
+        'pendant 15.jpeg' => 'Black Feather Pendant Necklace',
 
         'ring 1.jpeg' => 'Pearl Cluster Gold Statement Ring',
         'ring 2.jpeg' => 'Red Heart Enamel Fan Ring',
@@ -242,6 +247,11 @@ function product_description_map(): array {
         'pendant 8.jpeg' => 'An oxidized silver necklace with a floral chandbali design. Traditional charm for festive outfits.',
         'pendant 9.jpeg' => 'A three-piece split heart set for your best friends. One heart, three keepers.',
         'pendant 10.jpeg' => 'A heartfelt "love you to the moon" pendant for your sister. A gift she will treasure.',
+        'pendant 11.jpeg' => 'A silver crescent moon engraved "I love you to the moon and back" with a gold "Mom" heart charm. A heartfelt gift for Mother\'s Day or her birthday.',
+        'pendant 12.jpeg' => 'A curved bar of bezel-set crystals on a fine chain. Minimal sparkle that sits beautifully at the collarbone.',
+        'pendant 13.jpeg' => 'A polished red stone heart with natural veining on a slim chain. A bold, romantic pop of colour.',
+        'pendant 14.jpeg' => 'A turquoise stone heart with natural veining on a slim chain. A fresh, boho touch for everyday outfits.',
+        'pendant 15.jpeg' => 'A detailed black feather pendant on a matching dark chain. Edgy and effortless for casual looks.',
 
         'ring 1.jpeg' => 'A gold statement ring topped with a cluster of pearls. Classy and eye-catching.',
         'ring 2.jpeg' => 'A fan-shaped ring with red heart enamel details. Playful and full of charm.',
