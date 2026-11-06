@@ -74,6 +74,11 @@ function delivery_fee(int $subtotal): int {
     return $subtotal >= FREE_DELIVERY_MIN ? 0 : DELIVERY_FEE;
 }
 
+// Small note shown on every product photo.
+function color_note(): string {
+    return '<span class="color-note">Product colour may vary slightly due to shoot lighting</span>';
+}
+
 function delivery_label(?int $fee): string {
     return $fee === 0 ? 'Free' : money((int)$fee);
 }
