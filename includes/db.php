@@ -135,6 +135,9 @@ function product_name_map(): array {
         'bangle 3.jpeg' => 'Kundan Multicolor Stone Bangle Set',
         'bangle 4.jpeg' => 'Black Stone Gold Bangle Set',
         'bangle 5.jpeg' => 'Filigree Gold Kundan Bangle Pair',
+        'bangle 6.jpeg' => 'Multicolor Enamel Kundan Bangle Set',
+        'bangle 7.jpeg' => 'Antique Gold Floral Crystal Bangle Set',
+        'bangle 8.jpeg' => 'Pastel Enamel Opal Stone Kada',
 
         'bracelet 1.jpeg' => 'Vintage Floral Gemstone Bracelet',
         'bracelet 2.jpeg' => 'Ruby Red Crystal Bracelet',
@@ -207,6 +210,9 @@ function product_description_map(): array {
         'bangle 3.jpeg' => 'Traditional kundan bangles set with colourful stones. Pairs beautifully with bright shalwar kameez and bridal wear.',
         'bangle 4.jpeg' => 'Gold bangles accented with bold black stones. A striking contrast that suits both eastern and western outfits.',
         'bangle 5.jpeg' => 'A pair of intricate gold filigree bangles with kundan detailing. Classic craftsmanship for weddings and Eid.',
+        'bangle 6.jpeg' => 'Gold bangles studded with kundan stones in bright pink, green, blue and yellow enamel rings. A colourful set for mehndis, weddings and Eid.',
+        'bangle 7.jpeg' => 'Antique gold bangles with crystal flowers and leaf motifs on a dark filigree base. Traditional elegance for festive outfits.',
+        'bangle 8.jpeg' => 'A wide silver-tone kada in pastel yellow, pink and turquoise enamel, set with soft opal stones and hearts. A fun, playful statement piece.',
 
         'bracelet 1.jpeg' => 'A vintage-inspired bracelet with floral gemstone accents. Adds a soft, romantic touch to any look.',
         'bracelet 2.jpeg' => 'Rich ruby-red crystals on a sleek bracelet. A bold pop of colour for evenings and celebrations.',
@@ -363,7 +369,8 @@ function seed_new_products(PDO $pdo): void {
          'earring 16.jpeg', 'earring 17.jpeg', 'earring 18.jpeg', 'earring 19.jpeg']);
     seed_products($pdo, ['bracelet' => $categories['bracelet']], true,
         ['bracelet 7.jpeg', 'bracelet 8.jpeg', 'bracelet 9.jpeg', 'bracelet 10.jpeg', 'bracelet 11.jpeg']);
-    seed_products($pdo, ['bangles' => $categories['bangles']], true, ['bangle 5.jpeg']);
+    seed_products($pdo, ['bangles' => $categories['bangles']], true,
+        ['bangle 5.jpeg', 'bangle 6.jpeg', 'bangle 7.jpeg', 'bangle 8.jpeg']);
 }
 
 function seed_products(PDO $pdo, ?array $categories = null, bool $skipExisting = false, ?array $onlyFiles = null): void {
