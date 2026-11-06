@@ -171,6 +171,9 @@ function product_name_map(): array {
         'earring 17.jpeg' => 'Crystal Pinwheel Flower Stud Earrings',
         'earring 18.jpeg' => 'Pearl Cascade Drop Earrings',
         'earring 19.jpeg' => 'Turquoise Spike Gold Drop Earrings',
+        'earring 20.jpeg' => 'Freshwater Pearl Stack Drop Earrings',
+        'earring 21.jpeg' => 'Geometric Enamel Triangle Drop Earrings',
+        'earring 22.jpeg' => 'Sleek Gold Spike Drop Earrings',
 
         'pendant 1.jpeg' => 'Golden Leaf Vine Ribbon Necklace',
         'pendant 2.jpeg' => 'Golden Beaded Rope Necklace',
@@ -256,6 +259,9 @@ function product_description_map(): array {
         'earring 17.jpeg' => 'Gold studs with clear crystal petals arranged in a pinwheel flower. Sparkly yet subtle for everyday and evening wear.',
         'earring 18.jpeg' => 'Delicate gold chains with cascading pearls under a crystal stud. Graceful and perfect for weddings and formal events.',
         'earring 19.jpeg' => 'Turquoise spike drops topped with ribbed gold cones. A bold boho pop of colour for casual outfits.',
+        'earring 20.jpeg' => 'Four freshwater-style pearls stacked below a gold ball stud, finished with a smoky crystal bead. Elegant for day and evening.',
+        'earring 21.jpeg' => 'Triangle drops in white, blush, sand and black enamel under an emerald-green stud. A modern, artsy statement.',
+        'earring 22.jpeg' => 'Long polished gold spikes hanging from marquise studs. Minimal, sleek and effortlessly chic.',
 
         'pendant 1.jpeg' => 'A gold necklace with a leaf and vine ribbon design. Graceful and nature-inspired.',
         'pendant 2.jpeg' => 'A golden beaded rope necklace with rich texture. Elevates both plain and embellished outfits.',
@@ -386,7 +392,8 @@ function seed_new_products(PDO $pdo): void {
     seed_products($pdo, ['rings' => $categories['rings']], true);
     seed_products($pdo, ['earrings' => $categories['earrings']], true,
         ['earring 12.jpeg', 'earring 13.jpeg', 'earring 14.jpeg', 'earring 15.jpeg',
-         'earring 16.jpeg', 'earring 17.jpeg', 'earring 18.jpeg', 'earring 19.jpeg']);
+         'earring 16.jpeg', 'earring 17.jpeg', 'earring 18.jpeg', 'earring 19.jpeg',
+         'earring 20.jpeg', 'earring 21.jpeg', 'earring 22.jpeg']);
     seed_products($pdo, ['bracelet' => $categories['bracelet']], true,
         ['bracelet 7.jpeg', 'bracelet 8.jpeg', 'bracelet 9.jpeg', 'bracelet 10.jpeg', 'bracelet 11.jpeg',
          'bracelet 12.jpeg']);
