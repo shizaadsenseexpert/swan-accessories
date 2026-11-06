@@ -212,6 +212,10 @@ function product_name_map(): array {
         'pendant 21.jpeg' => 'Black Clover Station Necklace',
         'pendant 22.jpeg' => 'Mother-of-Pearl Rectangle Pendant',
         'pendant 23.jpeg' => 'Black Onyx Rectangle Pendant',
+        'pendant 24.jpeg' => 'Three-Layer Pearl Necklace',
+        'pendant 25.jpeg' => 'Black Leaf Statement Bib Necklace',
+        'pendant 26.jpeg' => 'Navy Blue Clover Station Necklace',
+        'pendant 27.jpeg' => 'Double-Row Crystal Solitaire Drop Necklace',
 
         'ring 1.jpeg' => 'Pearl Cluster Gold Statement Ring',
         'ring 2.jpeg' => 'Red Heart Enamel Fan Ring',
@@ -291,6 +295,10 @@ function product_description_map(): array {
         'pendant 21.jpeg' => 'A gold chain with three glossy black clover motifs in beaded frames. Classic contrast for day or evening.',
         'pendant 22.jpeg' => 'A rectangular mother-of-pearl pendant framed in gold on a box chain. Minimal, modern and easy to layer.',
         'pendant 23.jpeg' => 'A sleek black rectangular pendant framed in gold on a fine chain. Bold minimalism for any outfit.',
+        'pendant 24.jpeg' => 'Three graduated strands of lustrous pearls finished with gold accents. Timeless grace for weddings, dawats and Eid.',
+        'pendant 25.jpeg' => 'A bold bib necklace of textured black leaves on a dark chain. A dramatic statement that pairs well with plain outfits.',
+        'pendant 26.jpeg' => 'A gold chain with five deep navy clover motifs in beaded frames. Rich colour with classic charm.',
+        'pendant 27.jpeg' => 'Two rows of sparkling crystals meeting at a large solitaire-style drop. Red-carpet glamour for weddings and formal nights.',
 
         'ring 1.jpeg' => 'A gold statement ring topped with a cluster of pearls. Classy and eye-catching.',
         'ring 2.jpeg' => 'A fan-shaped ring with red heart enamel details. Playful and full of charm.',
