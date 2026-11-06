@@ -183,6 +183,9 @@ function product_name_map(): array {
         'pendant 13.jpeg' => 'Red Stone Heart Pendant',
         'pendant 14.jpeg' => 'Turquoise Stone Heart Pendant',
         'pendant 15.jpeg' => 'Black Feather Pendant Necklace',
+        'pendant 16.jpeg' => 'Pink & Blue Stick Figure Puzzle Pendant',
+        'pendant 17.jpeg' => 'Peach Stick Figure Puzzle Pendant',
+        'pendant 18.jpeg' => 'Pink Beaded Rope Necklace',
 
         'ring 1.jpeg' => 'Pearl Cluster Gold Statement Ring',
         'ring 2.jpeg' => 'Red Heart Enamel Fan Ring',
@@ -252,6 +255,9 @@ function product_description_map(): array {
         'pendant 13.jpeg' => 'A polished red stone heart with natural veining on a slim chain. A bold, romantic pop of colour.',
         'pendant 14.jpeg' => 'A turquoise stone heart with natural veining on a slim chain. A fresh, boho touch for everyday outfits.',
         'pendant 15.jpeg' => 'A detailed black feather pendant on a matching dark chain. Edgy and effortless for casual looks.',
+        'pendant 16.jpeg' => 'A puzzle-piece pendant in pink and blue with a cute stick figure. Pair it with the peach piece to share with your best friend.',
+        'pendant 17.jpeg' => 'A peach puzzle-piece pendant with a smiling stick figure. Matches the pink and blue piece as a best friends pair.',
+        'pendant 18.jpeg' => 'A thick rope necklace woven from pink crystal beads with gold thread. A vibrant statement for weddings, mehndis and Eid.',
 
         'ring 1.jpeg' => 'A gold statement ring topped with a cluster of pearls. Classy and eye-catching.',
         'ring 2.jpeg' => 'A fan-shaped ring with red heart enamel details. Playful and full of charm.',
