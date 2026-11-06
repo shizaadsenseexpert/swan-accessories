@@ -70,7 +70,7 @@ require __DIR__ . '/includes/admin_header.php';
             </div>
           </td>
           <td data-label="Category"><?= e(category_label($p['category'])) ?></td>
-          <td data-label="Price"><?= money($p['price']) ?></td>
+          <td data-label="Price"><?= has_price($p) ? money($p['price']) : '<em>Not set</em>' ?></td>
           <td data-label="Status">
             <span class="status-badge <?= $p['is_active'] ? 'status-delivered' : 'status-cancelled' ?>">
               <?= $p['is_active'] ? 'Active' : 'Hidden' ?>

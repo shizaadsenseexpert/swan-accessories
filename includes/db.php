@@ -142,9 +142,10 @@ function init_schema(PDO $pdo): void {
     ensure_deleted_products_table($pdo);
 }
 
-// Prices from the "Swan Accessories - Inventory" sheet. New installs use them
-// straight away; existing stores get them once (see apply_price_updates), so
-// prices changed later in the admin panel are never overwritten.
+// Prices from the "Swan Accessories - Inventory" sheet. Store photos that are
+// not in the sheet get no price (0) and can't be ordered until a price is set
+// in the admin panel. New installs use this straight away; existing stores get
+// it once (see apply_price_updates), so later admin price changes are kept.
 function product_price_map(): array {
     return [
         'bangle 1.jpeg' => 1100,
@@ -220,9 +221,9 @@ function apply_price_updates(PDO $pdo): void {
     $set = $pdo->prepare("UPDATE products SET price = :price WHERE id = :id");
     foreach ($rows as $row) {
         $filename = strtolower(basename($row['image_path']));
-        if (isset($prices[$filename])) {
-            $set->execute([':price' => $prices[$filename], ':id' => $row['id']]);
-        }
+        // Products added through the admin panel keep their own price.
+        if (strpos($filename, 'prod_') === 0) continue;
+        $set->execute([':price' => $prices[$filename] ?? 0, ':id' => $row['id']]);
     }
     mark_update_applied($pdo, $update);
 }
@@ -536,7 +537,7 @@ function seed_products(PDO $pdo, ?array $categories = null, bool $skipExisting =
             $stmt->execute([
                 ':category'    => $cat,
                 ':name'        => $name,
-                ':price'       => $prices[strtolower($file)] ?? $info['price'],
+                ':price'       => $prices[strtolower($file)] ?? 0,
                 ':description' => $descriptions[strtolower($file)] ?? generate_product_description($name, $cat),
                 ':image_path'  => $imagePath,
             ]);
