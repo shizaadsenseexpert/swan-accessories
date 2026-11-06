@@ -39,6 +39,7 @@ function migrate_schema(PDO $pdo): void {
 
     rename_generic_products($pdo);
     seed_new_products($pdo);
+    remove_retired_products($pdo);
     update_generic_descriptions($pdo);
 }
 
@@ -79,6 +80,24 @@ function delete_product(PDO $pdo, int $id): void {
         $file = BASE_PATH . '/' . $product['image_path'];
         if (!$inUse->fetchColumn() && is_file($file)) {
             unlink($file);
+        }
+    }
+}
+
+// Products taken off the store. Their photos are gone, so they are removed
+// from existing databases the same way an admin delete would.
+function retired_product_images(): array {
+    return [
+        'assets/images/products/pendants/pendant 1.jpeg', // Golden Leaf Vine Ribbon Necklace
+    ];
+}
+
+function remove_retired_products(PDO $pdo): void {
+    $find = $pdo->prepare("SELECT id FROM products WHERE image_path = :image_path");
+    foreach (retired_product_images() as $imagePath) {
+        $find->execute([':image_path' => $imagePath]);
+        foreach ($find->fetchAll(PDO::FETCH_COLUMN) as $id) {
+            delete_product($pdo, (int) $id);
         }
     }
 }
@@ -171,7 +190,6 @@ function product_name_map(): array {
         'earring 18.jpeg' => 'Pearl Cascade Drop Earrings',
         'earring 19.jpeg' => 'Turquoise Spike Gold Drop Earrings',
 
-        'pendant 1.jpeg' => 'Golden Leaf Vine Ribbon Necklace',
         'pendant 2.jpeg' => 'Golden Beaded Rope Necklace',
         'pendant 3.jpeg' => 'Vintage Silver Owl Pendant',
         'pendant 4.jpeg' => 'Red Retro Camera Pendant',
@@ -246,7 +264,6 @@ function product_description_map(): array {
         'earring 18.jpeg' => 'Delicate gold chains with cascading pearls under a crystal stud. Graceful and perfect for weddings and formal events.',
         'earring 19.jpeg' => 'Turquoise spike drops topped with ribbed gold cones. A bold boho pop of colour for casual outfits.',
 
-        'pendant 1.jpeg' => 'A gold necklace with a leaf and vine ribbon design. Graceful and nature-inspired.',
         'pendant 2.jpeg' => 'A golden beaded rope necklace with rich texture. Elevates both plain and embellished outfits.',
         'pendant 3.jpeg' => 'A vintage-style silver owl pendant full of character. A charming piece for everyday wear.',
         'pendant 4.jpeg' => 'A fun red retro camera pendant. Perfect for photography lovers and quirky styles.',
