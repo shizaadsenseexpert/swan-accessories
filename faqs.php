@@ -7,6 +7,7 @@ $faqs = [
     ['How do I place an order?', 'Browse our Bangles, Bracelets, Earrings, Pendants, and Rings, add the pieces you like to your cart, then go to checkout and fill in your delivery details. No account needed.'],
     ['What payment methods do you accept?', 'Currently we accept Cash on Delivery (COD) — you pay in cash when your order arrives at your doorstep. Online payment options are coming soon.'],
     ['How long does delivery take?', 'Most orders are delivered within 3–5 working days, depending on your city. See our Shipping Details page for more.'],
+    ['How much is delivery?', 'Delivery is ' . money(DELIVERY_FEE) . ' per order anywhere in Pakistan, and free on orders of ' . money(FREE_DELIVERY_MIN) . ' or more.'],
     ['Can I exchange or return a product?', 'Yes — see our Refund & Exchange Policy page for the full details on exchanges.'],
     ['How do I know my bangle size?', 'Check our Bangle Size Guide for step-by-step instructions on measuring your wrist at home.'],
     ['How can I track my order?', 'Once your order is placed, we\'ll contact you on the phone number you provide with updates. For any questions in the meantime, message us on WhatsApp.'],

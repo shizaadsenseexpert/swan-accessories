@@ -5,6 +5,11 @@ define('SITE_NAME', 'Swan Accessories');
 define('SITE_TAGLINE', 'Timeless pieces, everyday grace.');
 define('SITE_CURRENCY_SYMBOL', 'Rs. ');
 
+// Delivery: a flat charge per order, free once the order reaches the minimum.
+// These also drive the scrolling announcement at the top of every page.
+define('DELIVERY_FEE', 200);
+define('FREE_DELIVERY_MIN', 2500);
+
 // Contact & social links — shown in the footer and Contact Us page.
 define('SITE_PHONE_DISPLAY', '0342-4533765');
 define('SITE_WHATSAPP_NUMBER', '923424533765'); // country code + number, no + or leading 0, used for wa.me links

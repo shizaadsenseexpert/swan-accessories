@@ -36,6 +36,7 @@ function migrate_schema(PDO $pdo): void {
     if (!$hasMaterial) {
         $pdo->exec("ALTER TABLE products ADD COLUMN material TEXT NOT NULL DEFAULT 'Stainless Steel'");
     }
+    ensure_order_delivery_column($pdo);
 
     rename_generic_products($pdo);
     seed_new_products($pdo);
@@ -83,6 +84,15 @@ function delete_product(PDO $pdo, int $id): void {
     }
 }
 
+// Delivery charge per order. Orders placed before delivery charges existed
+// keep NULL here, so their pages don't show a delivery line.
+function ensure_order_delivery_column(PDO $pdo): void {
+    $columns = $pdo->query("PRAGMA table_info(orders)")->fetchAll(PDO::FETCH_COLUMN, 1);
+    if (!in_array('delivery_fee', $columns, true)) {
+        $pdo->exec("ALTER TABLE orders ADD COLUMN delivery_fee INTEGER");
+    }
+}
+
 function init_schema(PDO $pdo): void {
     $pdo->exec("
         CREATE TABLE products (
@@ -108,6 +118,7 @@ function init_schema(PDO $pdo): void {
             notes TEXT NOT NULL DEFAULT '',
             payment_method TEXT NOT NULL DEFAULT 'cod',
             status TEXT NOT NULL DEFAULT 'pending',
+            delivery_fee INTEGER,
             total INTEGER NOT NULL,
             created_at TEXT NOT NULL DEFAULT (datetime('now'))
         );
@@ -135,6 +146,9 @@ function product_name_map(): array {
         'bangle 3.jpeg' => 'Kundan Multicolor Stone Bangle Set',
         'bangle 4.jpeg' => 'Black Stone Gold Bangle Set',
         'bangle 5.jpeg' => 'Filigree Gold Kundan Bangle Pair',
+        'bangle 6.jpeg' => 'Multicolor Enamel Kundan Bangle Set',
+        'bangle 7.jpeg' => 'Antique Gold Floral Crystal Bangle Set',
+        'bangle 8.jpeg' => 'Pastel Enamel Opal Stone Kada',
 
         'bracelet 1.jpeg' => 'Vintage Floral Gemstone Bracelet',
         'bracelet 2.jpeg' => 'Ruby Red Crystal Bracelet',
@@ -147,6 +161,7 @@ function product_name_map(): array {
         'bracelet 9.jpeg' => 'Pink & Pearl Blossom Bracelet',
         'bracelet 10.jpeg' => 'Yellow Daisy Gold Cuff Bracelet',
         'bracelet 11.jpeg' => 'Rose Quartz & Pearl Beaded Bracelet Stack',
+        'bracelet 12.jpeg' => 'White Daisy & Pearl Gold Bracelet',
 
         'earring 1.jpeg' => 'Oxidized Silver Pearl Jhumka Earrings',
         'earring 2.jpeg' => 'Pearl & Crystal Beaded Hoop Earrings',
@@ -163,6 +178,13 @@ function product_name_map(): array {
         'earring 13.jpeg' => 'Gold Crystal Double Circle Earrings',
         'earring 14.jpeg' => 'Silver Square Hoop Earrings',
         'earring 15.jpeg' => 'Antique Gold Chandbali Earrings',
+        'earring 16.jpeg' => 'Pearl & Black Crystal Wrapped Hoop Earrings',
+        'earring 17.jpeg' => 'Crystal Pinwheel Flower Stud Earrings',
+        'earring 18.jpeg' => 'Pearl Cascade Drop Earrings',
+        'earring 19.jpeg' => 'Turquoise Spike Gold Drop Earrings',
+        'earring 20.jpeg' => 'Freshwater Pearl Stack Drop Earrings',
+        'earring 21.jpeg' => 'Geometric Enamel Triangle Drop Earrings',
+        'earring 22.jpeg' => 'Sleek Gold Spike Drop Earrings',
 
         'pendant 1.jpeg' => 'Golden Leaf Vine Ribbon Necklace',
         'pendant 2.jpeg' => 'Golden Beaded Rope Necklace',
@@ -174,6 +196,23 @@ function product_name_map(): array {
         'pendant 8.jpeg' => 'Oxidized Silver Floral Chandbali Necklace',
         'pendant 9.jpeg' => 'Best Friends Three-Piece Split Heart Pendant Set',
         'pendant 10.jpeg' => 'Sister Love You to the Moon Pendant',
+        'pendant 11.jpeg' => 'Mom Love You to the Moon & Back Pendant',
+        'pendant 12.jpeg' => 'Crystal Bezel Curved Bar Necklace',
+        'pendant 13.jpeg' => 'Red Stone Heart Pendant',
+        'pendant 14.jpeg' => 'Turquoise Stone Heart Pendant',
+        'pendant 15.jpeg' => 'Black Feather Pendant Necklace',
+        'pendant 16.jpeg' => 'Pink & Blue Stick Figure Puzzle Pendant',
+        'pendant 17.jpeg' => 'Peach Stick Figure Puzzle Pendant',
+        'pendant 18.jpeg' => 'Pink Beaded Rope Necklace',
+        'pendant 19.jpeg' => 'Layered Turquoise Stone Chain Necklace',
+        'pendant 20.jpeg' => 'Mother-of-Pearl Clover Station Necklace',
+        'pendant 21.jpeg' => 'Black Clover Station Necklace',
+        'pendant 22.jpeg' => 'Mother-of-Pearl Rectangle Pendant',
+        'pendant 23.jpeg' => 'Black Onyx Rectangle Pendant',
+        'pendant 24.jpeg' => 'Three-Layer Pearl Necklace',
+        'pendant 25.jpeg' => 'Black Leaf Statement Bib Necklace',
+        'pendant 26.jpeg' => 'Navy Blue Clover Station Necklace',
+        'pendant 27.jpeg' => 'Double-Row Crystal Solitaire Drop Necklace',
 
         'ring 1.jpeg' => 'Pearl Cluster Gold Statement Ring',
         'ring 2.jpeg' => 'Red Heart Enamel Fan Ring',
@@ -183,6 +222,7 @@ function product_name_map(): array {
         'ring 6.jpeg' => 'Hot Pink Baguette Crystal Band Ring',
         'ring 7.jpeg' => 'Minimal Gold Heart & Bar Ring Set',
         'ring 8.jpeg' => 'Gold Chevron & Stacking Band Ring Set',
+        'ring 9.jpeg' => 'Emerald Green Baguette Crystal Band Ring',
     ];
 }
 
@@ -194,6 +234,9 @@ function product_description_map(): array {
         'bangle 3.jpeg' => 'Traditional kundan bangles set with colourful stones. Pairs beautifully with bright shalwar kameez and bridal wear.',
         'bangle 4.jpeg' => 'Gold bangles accented with bold black stones. A striking contrast that suits both eastern and western outfits.',
         'bangle 5.jpeg' => 'A pair of intricate gold filigree bangles with kundan detailing. Classic craftsmanship for weddings and Eid.',
+        'bangle 6.jpeg' => 'Gold bangles studded with kundan stones in bright pink, green, blue and yellow enamel rings. A colourful set for mehndis, weddings and Eid.',
+        'bangle 7.jpeg' => 'Antique gold bangles with crystal flowers and leaf motifs on a dark filigree base. Traditional elegance for festive outfits.',
+        'bangle 8.jpeg' => 'A wide silver-tone kada in pastel yellow, pink and turquoise enamel, set with soft opal stones and hearts. A fun, playful statement piece.',
 
         'bracelet 1.jpeg' => 'A vintage-inspired bracelet with floral gemstone accents. Adds a soft, romantic touch to any look.',
         'bracelet 2.jpeg' => 'Rich ruby-red crystals on a sleek bracelet. A bold pop of colour for evenings and celebrations.',
@@ -206,6 +249,7 @@ function product_description_map(): array {
         'bracelet 9.jpeg' => 'Pink blossoms and pearls on a dainty bracelet. Sweet, feminine and ideal as a gift.',
         'bracelet 10.jpeg' => 'A gold cuff decorated with bright yellow daisies. A sunny statement piece for summer.',
         'bracelet 11.jpeg' => 'A stack of rose quartz and pearl beaded bracelets. Wear them together or style them separately.',
+        'bracelet 12.jpeg' => 'White enamel daisies with sunny yellow centres linked by pearls on a gold chain. Fresh, feminine and perfect for everyday wear.',
 
         'earring 1.jpeg' => 'Oxidized silver jhumkas finished with pearl drops. A traditional favourite for kurtas and festive wear.',
         'earring 2.jpeg' => 'Hoops wrapped in pearls and crystals. Light, elegant and suitable for day or night.',
@@ -222,6 +266,13 @@ function product_description_map(): array {
         'earring 13.jpeg' => 'Interlinked gold circles set with crystals. A refined everyday-to-evening pair.',
         'earring 14.jpeg' => 'Silver hoops with a contemporary square shape. Clean, modern and easy to wear.',
         'earring 15.jpeg' => 'Antique gold chandbalis with traditional detailing. Made for weddings, mehndis and Eid.',
+        'earring 16.jpeg' => 'Gold hoops wire-wrapped with pearls and faceted black crystals. A striking classic contrast for parties and dawats.',
+        'earring 17.jpeg' => 'Gold studs with clear crystal petals arranged in a pinwheel flower. Sparkly yet subtle for everyday and evening wear.',
+        'earring 18.jpeg' => 'Delicate gold chains with cascading pearls under a crystal stud. Graceful and perfect for weddings and formal events.',
+        'earring 19.jpeg' => 'Turquoise spike drops topped with ribbed gold cones. A bold boho pop of colour for casual outfits.',
+        'earring 20.jpeg' => 'Four freshwater-style pearls stacked below a gold ball stud, finished with a smoky crystal bead. Elegant for day and evening.',
+        'earring 21.jpeg' => 'Triangle drops in white, blush, sand and black enamel under an emerald-green stud. A modern, artsy statement.',
+        'earring 22.jpeg' => 'Long polished gold spikes hanging from marquise studs. Minimal, sleek and effortlessly chic.',
 
         'pendant 1.jpeg' => 'A gold necklace with a leaf and vine ribbon design. Graceful and nature-inspired.',
         'pendant 2.jpeg' => 'A golden beaded rope necklace with rich texture. Elevates both plain and embellished outfits.',
@@ -233,6 +284,23 @@ function product_description_map(): array {
         'pendant 8.jpeg' => 'An oxidized silver necklace with a floral chandbali design. Traditional charm for festive outfits.',
         'pendant 9.jpeg' => 'A three-piece split heart set for your best friends. One heart, three keepers.',
         'pendant 10.jpeg' => 'A heartfelt "love you to the moon" pendant for your sister. A gift she will treasure.',
+        'pendant 11.jpeg' => 'A silver crescent moon engraved "I love you to the moon and back" with a gold "Mom" heart charm. A heartfelt gift for Mother\'s Day or her birthday.',
+        'pendant 12.jpeg' => 'A curved bar of bezel-set crystals on a fine chain. Minimal sparkle that sits beautifully at the collarbone.',
+        'pendant 13.jpeg' => 'A polished red stone heart with natural veining on a slim chain. A bold, romantic pop of colour.',
+        'pendant 14.jpeg' => 'A turquoise stone heart with natural veining on a slim chain. A fresh, boho touch for everyday outfits.',
+        'pendant 15.jpeg' => 'A detailed black feather pendant on a matching dark chain. Edgy and effortless for casual looks.',
+        'pendant 16.jpeg' => 'A puzzle-piece pendant in pink and blue with a cute stick figure. Pair it with the peach piece to share with your best friend.',
+        'pendant 17.jpeg' => 'A peach puzzle-piece pendant with a smiling stick figure. Matches the pink and blue piece as a best friends pair.',
+        'pendant 18.jpeg' => 'A thick rope necklace woven from pink crystal beads with gold thread. A vibrant statement for weddings, mehndis and Eid.',
+        'pendant 19.jpeg' => 'Three layered antique-tone chains, each with a turquoise stone at the centre. A boho statement that needs no other jewellery.',
+        'pendant 20.jpeg' => 'A gold chain with three mother-of-pearl clover motifs in beaded frames. Soft shimmer for everyday elegance.',
+        'pendant 21.jpeg' => 'A gold chain with three glossy black clover motifs in beaded frames. Classic contrast for day or evening.',
+        'pendant 22.jpeg' => 'A rectangular mother-of-pearl pendant framed in gold on a box chain. Minimal, modern and easy to layer.',
+        'pendant 23.jpeg' => 'A sleek black rectangular pendant framed in gold on a fine chain. Bold minimalism for any outfit.',
+        'pendant 24.jpeg' => 'Three graduated strands of lustrous pearls finished with gold accents. Timeless grace for weddings, dawats and Eid.',
+        'pendant 25.jpeg' => 'A bold bib necklace of textured black leaves on a dark chain. A dramatic statement that pairs well with plain outfits.',
+        'pendant 26.jpeg' => 'A gold chain with five deep navy clover motifs in beaded frames. Rich colour with classic charm.',
+        'pendant 27.jpeg' => 'Two rows of sparkling crystals meeting at a large solitaire-style drop. Red-carpet glamour for weddings and formal nights.',
 
         'ring 1.jpeg' => 'A gold statement ring topped with a cluster of pearls. Classy and eye-catching.',
         'ring 2.jpeg' => 'A fan-shaped ring with red heart enamel details. Playful and full of charm.',
@@ -242,6 +310,7 @@ function product_description_map(): array {
         'ring 6.jpeg' => 'A band lined with hot pink baguette crystals. A vibrant everyday sparkle.',
         'ring 7.jpeg' => 'Minimal gold rings with heart and bar details. Subtle, modern and easy to stack.',
         'ring 8.jpeg' => 'A gold chevron ring with matching stacking bands. Wear them together or on their own.',
+        'ring 9.jpeg' => 'A gold band lined with emerald-green baguette crystals. Rich colour and sparkle for festive and everyday wear.',
     ];
 }
 
@@ -333,10 +402,14 @@ function seed_new_products(PDO $pdo): void {
     seed_products($pdo, ['pendants' => $categories['pendants']], true);
     seed_products($pdo, ['rings' => $categories['rings']], true);
     seed_products($pdo, ['earrings' => $categories['earrings']], true,
-        ['earring 12.jpeg', 'earring 13.jpeg', 'earring 14.jpeg', 'earring 15.jpeg']);
+        ['earring 12.jpeg', 'earring 13.jpeg', 'earring 14.jpeg', 'earring 15.jpeg',
+         'earring 16.jpeg', 'earring 17.jpeg', 'earring 18.jpeg', 'earring 19.jpeg',
+         'earring 20.jpeg', 'earring 21.jpeg', 'earring 22.jpeg']);
     seed_products($pdo, ['bracelet' => $categories['bracelet']], true,
-        ['bracelet 7.jpeg', 'bracelet 8.jpeg', 'bracelet 9.jpeg', 'bracelet 10.jpeg', 'bracelet 11.jpeg']);
-    seed_products($pdo, ['bangles' => $categories['bangles']], true, ['bangle 5.jpeg']);
+        ['bracelet 7.jpeg', 'bracelet 8.jpeg', 'bracelet 9.jpeg', 'bracelet 10.jpeg', 'bracelet 11.jpeg',
+         'bracelet 12.jpeg']);
+    seed_products($pdo, ['bangles' => $categories['bangles']], true,
+        ['bangle 5.jpeg', 'bangle 6.jpeg', 'bangle 7.jpeg', 'bangle 8.jpeg']);
 }
 
 function seed_products(PDO $pdo, ?array $categories = null, bool $skipExisting = false, ?array $onlyFiles = null): void {

@@ -55,6 +55,7 @@ require __DIR__ . '/includes/header.php';
       <div class="product-card">
         <a class="thumb" href="<?= e(product_url($p)) ?>">
           <img src="<?= e(asset_url($p['image_path'])) ?>" alt="<?= e($p['name']) ?>">
+          <?= color_note() ?>
         </a>
         <div class="info">
           <span class="cat-tag"><?= e(category_label($p['category'])) ?></span>

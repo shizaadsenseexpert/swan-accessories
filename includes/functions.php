@@ -70,21 +70,45 @@ function cart_count(): int {
     return $total;
 }
 
+function delivery_fee(int $subtotal): int {
+    return $subtotal >= FREE_DELIVERY_MIN ? 0 : DELIVERY_FEE;
+}
+
+// Small note shown on every product photo.
+function color_note(): string {
+    return '<span class="color-note">Product colour may vary slightly due to shoot lighting</span>';
+}
+
+function delivery_label(?int $fee): string {
+    return $fee === 0 ? 'Free' : money((int)$fee);
+}
+
+function delivery_announcement(): string {
+    return 'Delivery charges ' . money(DELIVERY_FEE) . ' per order'
+        . '  ·  FREE delivery on orders of ' . money(FREE_DELIVERY_MIN) . ' or more';
+}
+
 function cart_details(): array {
     $items = [];
-    $total = 0;
+    $subtotal = 0;
     foreach (cart_items() as $productId => $qty) {
         $product = get_product((int)$productId);
         if (!$product || !$product['is_active']) continue;
-        $subtotal = $product['price'] * $qty;
-        $total += $subtotal;
+        $lineTotal = $product['price'] * $qty;
+        $subtotal += $lineTotal;
         $items[] = [
             'product'  => $product,
             'qty'      => $qty,
-            'subtotal' => $subtotal,
+            'subtotal' => $lineTotal,
         ];
     }
-    return ['items' => $items, 'total' => $total];
+    $delivery = empty($items) ? 0 : delivery_fee($subtotal);
+    return [
+        'items'    => $items,
+        'subtotal' => $subtotal,
+        'delivery' => $delivery,
+        'total'    => $subtotal + $delivery,
+    ];
 }
 
 function e(string $value): string {
@@ -127,7 +151,11 @@ function product_url(array $product): string {
 }
 
 function asset_url(string $path): string {
-    return '/' . ltrim($path, '/');
+    $path = ltrim($path, '/');
+    // Version tag so browsers fetch a photo again after it's replaced.
+    $file = BASE_PATH . '/' . $path;
+    $version = is_file($file) ? '?v=' . filemtime($file) : '';
+    return '/' . $path . $version;
 }
 
 function redirect_permanent(string $url): void {

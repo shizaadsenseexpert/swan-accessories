@@ -12,6 +12,20 @@
 </head>
 <body>
 <header class="site-header">
+  <div class="announcement-bar" role="note" aria-label="<?= e(delivery_announcement()) ?>">
+    <div class="announcement-track" aria-hidden="true">
+      <?php for ($i = 0; $i < 2; $i++): ?>
+        <div class="announcement-group">
+          <?php for ($j = 0; $j < 3; $j++): ?>
+            <span>Delivery charges <?= money(DELIVERY_FEE) ?> per order</span>
+            <span class="announcement-dot">✦</span>
+            <span><strong>FREE delivery</strong> on orders of <?= money(FREE_DELIVERY_MIN) ?> or more</span>
+            <span class="announcement-dot">✦</span>
+          <?php endfor; ?>
+        </div>
+      <?php endfor; ?>
+    </div>
+  </div>
   <div class="header-inner">
     <a class="brand" href="<?= $basePath ?? '' ?>/home">
       <span class="brand-mark">Swan</span><span class="brand-sub">Accessories</span>
