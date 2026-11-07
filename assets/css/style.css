@@ -867,38 +867,36 @@ table.admin-table th { color: var(--ink-soft); font-weight: 500; font-size: 0.78
   .product-table .admin-actions { justify-content: flex-start; }
 }
 
-/* Scrolling delivery announcement at the top of every page */
+/* Scrolling delivery announcement at the top of every page.
+   One line of text that glides in from the right and out to the left. */
 .announcement-bar {
   background: var(--rose-deep);
   color: var(--white);
   overflow: hidden;
-  font-size: 0.8rem;
-  letter-spacing: 0.04em;
-  line-height: 1;
+  white-space: nowrap;
 }
-.announcement-track {
-  display: flex;
-  width: max-content;
-  animation: announcement-scroll 40s linear infinite;
+.announcement-text {
+  display: inline-block;
+  margin: 0;
+  padding: 9px 0 9px 100%;
+  font-size: 0.82rem;
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+  animation: announcement-scroll 22s linear infinite;
 }
-.announcement-bar:hover .announcement-track { animation-play-state: paused; }
-.announcement-group {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  padding: 9px 0;
-}
-.announcement-group span { white-space: nowrap; padding: 0 18px; }
-.announcement-group strong { font-weight: 600; }
-.announcement-dot { color: var(--gold-light); padding: 0 !important; font-size: 0.7rem; }
+.announcement-text strong { font-weight: 600; }
+.announcement-dot { color: var(--gold-light); margin: 0 14px; font-size: 0.7rem; }
+.announcement-bar:hover .announcement-text { animation-play-state: paused; }
 @keyframes announcement-scroll {
   from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  to { transform: translateX(-100%); }
+}
+@media (max-width: 600px) {
+  .announcement-text { font-size: 0.76rem; animation-duration: 16s; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .announcement-track { animation: none; width: auto; justify-content: center; }
-  .announcement-group + .announcement-group { display: none; }
-  .announcement-group { flex-wrap: wrap; justify-content: center; }
+  .announcement-bar { text-align: center; white-space: normal; }
+  .announcement-text { animation: none; padding: 9px 16px; }
 }
 
 /* Cart subtotal / delivery lines */
