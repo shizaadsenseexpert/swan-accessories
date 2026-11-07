@@ -5,8 +5,9 @@
 #   FTP_USERNAME    your FTP / cPanel username
 #   FTP_PASSWORD    your FTP / cPanel password
 #   FTP_SERVER_DIR  optional, folder the site lives in, ending with "/".
-#                   Defaults to "public_html/". Use "./" if your FTP account
-#                   already opens inside the site folder.
+#                   Defaults to "./" because the Hostinger FTP login already
+#                   opens inside public_html. Set it (e.g. "public_html/") only
+#                   if your FTP account opens one level above the site folder.
 name: Deploy to hosting
 
 on:
@@ -38,7 +39,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ secrets.FTP_SERVER_DIR || 'public_html/' }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR || './' }}
           # Only changed files are uploaded. Files that exist only on the
           # server (the live database, photos uploaded in admin) are never
           # touched.
