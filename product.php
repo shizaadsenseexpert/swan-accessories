@@ -41,19 +41,7 @@ require __DIR__ . '/includes/header.php';
     </div>
     <p class="desc"><?= e($product['description']) ?></p>
 
-    <?php if (has_price($product)): ?>
-    <form action="/cart" method="post">
-      <input type="hidden" name="action" value="add">
-      <input type="hidden" name="product_id" value="<?= (int)$product['id'] ?>">
-      <div class="qty-row">
-        <label for="qty">Quantity</label>
-        <input type="number" id="qty" name="qty" value="1" min="1" max="20">
-      </div>
-      <button type="submit" class="btn btn-primary btn-block">Add to Cart</button>
-    </form>
-    <?php else: ?>
-    <a class="btn btn-primary btn-block" href="<?= e(ask_price_link($product)) ?>" target="_blank" rel="noopener">Ask on WhatsApp</a>
-    <?php endif; ?>
+    <?= buy_buttons($product, true) ?>
   </div>
 </div>
 

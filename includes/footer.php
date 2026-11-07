@@ -78,5 +78,65 @@
   });
 })();
 </script>
+<?php $flashAdded = $_SESSION['flash_added'] ?? null; unset($_SESSION['flash_added']); ?>
+<div class="cart-toast" id="cartToast" role="status" aria-live="polite"<?= $flashAdded ? ' data-show="1"' : '' ?>>
+  <span class="cart-toast-icon" aria-hidden="true">&#10003;</span>
+  <span class="cart-toast-text" id="cartToastText"><?= $flashAdded ? e($flashAdded) . ' added to cart' : '' ?></span>
+  <a href="/cart" class="cart-toast-link">View cart</a>
+</div>
+<script>
+(function () {
+  var toast = document.getElementById('cartToast');
+  var toastText = document.getElementById('cartToastText');
+  var hideTimer;
+
+  function showToast(message) {
+    if (message) toastText.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(function () {
+      toast.classList.remove('show');
+      toast.removeAttribute('data-show');
+    }, 3500);
+  }
+  if (toast.getAttribute('data-show')) showToast();
+
+  // Add to Cart stays on the page; Buy Now submits normally and goes to checkout.
+  document.querySelectorAll('.buy-form').forEach(function (form) {
+    form.addEventListener('submit', function (event) {
+      var submitter = event.submitter;
+      if (submitter && submitter.name === 'buy_now') return;
+      if (!window.fetch || !window.FormData) return;
+      event.preventDefault();
+
+      var button = submitter || form.querySelector('button');
+      var label = button.textContent;
+      button.disabled = true;
+      button.textContent = 'Adding…';
+
+      // getAttribute: form.action would return the hidden input named "action".
+      fetch(form.getAttribute('action'), {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'X-Requested-With': 'fetch' },
+        credentials: 'same-origin'
+      })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (!data.ok) throw new Error('not added');
+          document.querySelectorAll('.cart-count').forEach(function (el) { el.textContent = data.count; });
+          showToast(data.name + ' added to cart');
+          button.textContent = 'Added ✓';
+          setTimeout(function () { button.textContent = label; button.disabled = false; }, 1500);
+        })
+        .catch(function () {
+          button.textContent = label;
+          button.disabled = false;
+          form.submit();
+        });
+    });
+  });
+})();
+</script>
 </body>
 </html>

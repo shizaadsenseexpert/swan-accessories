@@ -62,15 +62,7 @@ require __DIR__ . '/includes/header.php';
           <h3><a href="<?= e(product_url($p)) ?>"><?= e($p['name']) ?></a></h3>
           <div class="material-tag"><?= e($p['material']) ?></div>
           <div class="price"><?= price_html($p) ?></div>
-          <?php if (has_price($p)): ?>
-          <form action="/cart" method="post">
-            <input type="hidden" name="action" value="add">
-            <input type="hidden" name="product_id" value="<?= (int)$p['id'] ?>">
-            <button type="submit" class="btn btn-outline btn-block">Add to Cart</button>
-          </form>
-          <?php else: ?>
-          <a class="btn btn-outline btn-block" href="<?= e(ask_price_link($p)) ?>" target="_blank" rel="noopener">Ask on WhatsApp</a>
-          <?php endif; ?>
+          <?= buy_buttons($p) ?>
         </div>
       </div>
     <?php endforeach; ?>
