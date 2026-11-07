@@ -34,13 +34,14 @@ require __DIR__ . '/includes/header.php';
   <div>
     <span class="cat-tag"><?= e(category_label($product['category'])) ?></span>
     <h1><?= e($product['name']) ?></h1>
-    <div class="price"><?= money($product['price']) ?></div>
+    <div class="price"><?= price_html($product) ?></div>
     <div class="material-badge">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
       <?= e($product['material']) ?> &middot; Rust &amp; Tarnish Resistant
     </div>
     <p class="desc"><?= e($product['description']) ?></p>
 
+    <?php if (has_price($product)): ?>
     <form action="/cart" method="post">
       <input type="hidden" name="action" value="add">
       <input type="hidden" name="product_id" value="<?= (int)$product['id'] ?>">
@@ -50,6 +51,9 @@ require __DIR__ . '/includes/header.php';
       </div>
       <button type="submit" class="btn btn-primary btn-block">Add to Cart</button>
     </form>
+    <?php else: ?>
+    <a class="btn btn-primary btn-block" href="<?= e(ask_price_link($product)) ?>" target="_blank" rel="noopener">Ask on WhatsApp</a>
+    <?php endif; ?>
   </div>
 </div>
 
@@ -68,7 +72,7 @@ require __DIR__ . '/includes/header.php';
         <span class="cat-tag"><?= e(category_label($p['category'])) ?></span>
         <h3><a href="<?= e(product_url($p)) ?>"><?= e($p['name']) ?></a></h3>
         <div class="material-tag"><?= e($p['material']) ?></div>
-        <div class="price"><?= money($p['price']) ?></div>
+        <div class="price"><?= price_html($p) ?></div>
       </div>
     </div>
   <?php endforeach; ?>

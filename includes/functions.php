@@ -44,6 +44,8 @@ function cart_items(): array {
 }
 
 function cart_add(int $productId, int $qty = 1): void {
+    $product = get_product($productId);
+    if (!$product || !has_price($product)) return;
     if (!isset($_SESSION['cart'])) $_SESSION['cart'] = [];
     $_SESSION['cart'][$productId] = ($_SESSION['cart'][$productId] ?? 0) + $qty;
 }
@@ -74,6 +76,27 @@ function delivery_fee(int $subtotal): int {
     return $subtotal >= FREE_DELIVERY_MIN ? 0 : DELIVERY_FEE;
 }
 
+// A product with no price (0) is shown without one and can't be added to
+// the cart; customers can ask about it on WhatsApp instead.
+function has_price(array $product): bool {
+    return (int)$product['price'] > 0;
+}
+
+function price_html(array $product): string {
+    return has_price($product) ? money((int)$product['price']) : '';
+}
+
+function ask_price_link(array $product): string {
+    return whatsapp_link('Hi! What is the price of ' . $product['name'] . '? ' . site_url(product_url($product)));
+}
+
+function site_url(string $path): string {
+    $host = $_SERVER['HTTP_HOST'] ?? '';
+    if ($host === '') return $path;
+    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    return $scheme . '://' . $host . $path;
+}
+
 // Small note shown on every product photo.
 function color_note(): string {
     return '<span class="color-note">Product colour may vary slightly due to shoot lighting</span>';
@@ -93,7 +116,7 @@ function cart_details(): array {
     $subtotal = 0;
     foreach (cart_items() as $productId => $qty) {
         $product = get_product((int)$productId);
-        if (!$product || !$product['is_active']) continue;
+        if (!$product || !$product['is_active'] || !has_price($product)) continue;
         $lineTotal = $product['price'] * $qty;
         $subtotal += $lineTotal;
         $items[] = [
