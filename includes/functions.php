@@ -112,11 +112,6 @@ function delivery_label(?int $fee): string {
     return $fee === 0 ? 'Free' : money((int)$fee);
 }
 
-function delivery_announcement(): string {
-    return 'Delivery charges ' . money(DELIVERY_FEE) . ' per order'
-        . '  ·  FREE delivery on orders of ' . money(FREE_DELIVERY_MIN) . ' or more';
-}
-
 function cart_details(): array {
     $items = [];
     $subtotal = 0;

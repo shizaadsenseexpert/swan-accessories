@@ -8,23 +8,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= rtrim($basePath ?? '', '/') ?>/assets/css/style.css">
+<link rel="stylesheet" href="<?= e(asset_url('assets/css/style.css')) ?>">
 </head>
 <body>
 <header class="site-header">
-  <div class="announcement-bar" role="note" aria-label="<?= e(delivery_announcement()) ?>">
-    <div class="announcement-track" aria-hidden="true">
-      <?php for ($i = 0; $i < 2; $i++): ?>
-        <div class="announcement-group">
-          <?php for ($j = 0; $j < 3; $j++): ?>
-            <span>Delivery charges <?= money(DELIVERY_FEE) ?> per order</span>
-            <span class="announcement-dot">✦</span>
-            <span><strong>FREE delivery</strong> on orders of <?= money(FREE_DELIVERY_MIN) ?> or more</span>
-            <span class="announcement-dot">✦</span>
-          <?php endfor; ?>
-        </div>
-      <?php endfor; ?>
-    </div>
+  <div class="announcement-bar" role="note">
+    <p class="announcement-text">
+      Delivery charges <?= money(DELIVERY_FEE) ?> per order
+      <span class="announcement-dot" aria-hidden="true">✦</span>
+      <strong>FREE delivery</strong> on orders of <?= money(FREE_DELIVERY_MIN) ?> or more
+    </p>
   </div>
   <div class="header-inner">
     <a class="brand" href="<?= $basePath ?? '' ?>/home">
