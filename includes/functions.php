@@ -56,6 +56,15 @@ function cart_add(int $productId, int $qty = 1): void {
     $_SESSION['cart'][$productId] = ($_SESSION['cart'][$productId] ?? 0) + $qty;
 }
 
+// Buy Now: make sure the product is in the cart with at least $qty, without
+// adding it a second time if the shopper already has it there.
+function cart_ensure(int $productId, int $qty): void {
+    $product = get_product($productId);
+    if (!$product || !has_price($product)) return;
+    if (!isset($_SESSION['cart'])) $_SESSION['cart'] = [];
+    $_SESSION['cart'][$productId] = max($_SESSION['cart'][$productId] ?? 0, $qty);
+}
+
 function cart_set_qty(int $productId, int $qty): void {
     if ($qty <= 0) {
         unset($_SESSION['cart'][$productId]);
@@ -101,6 +110,41 @@ function site_url(string $path): string {
     if ($host === '') return $path;
     $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
     return $scheme . '://' . $host . $path;
+}
+
+// Add to Cart / Buy Now buttons for a product. On a product card it's just the
+// two buttons; on the product page it also has a quantity box.
+function buy_buttons(array $product, bool $withQty = false): string {
+    if (!has_price($product)) {
+        $class = $withQty ? 'btn btn-primary btn-block' : 'btn btn-outline btn-block';
+        return '<a class="' . $class . '" href="' . e(ask_price_link($product)) . '" target="_blank" rel="noopener">Ask on WhatsApp</a>';
+    }
+    $html = '<form action="/cart" method="post" class="buy-form">'
+        . '<input type="hidden" name="action" value="add">'
+        . '<input type="hidden" name="product_id" value="' . (int)$product['id'] . '">';
+    if ($withQty) {
+        $html .= '<div class="qty-row"><label for="qty">Quantity</label>'
+            . '<input type="number" id="qty" name="qty" value="1" min="1" max="20"></div>';
+    }
+    $html .= '<div class="buy-actions">'
+        . '<button type="submit" class="btn btn-outline">Add to Cart</button>'
+        . '<button type="submit" name="buy_now" value="1" class="btn btn-primary">Buy Now</button>'
+        . '</div></form>';
+    return $html;
+}
+
+// Where to send the shopper back to after a no-JavaScript Add to Cart.
+function back_url(): string {
+    $ref = $_SERVER['HTTP_REFERER'] ?? '';
+    $parts = $ref !== '' ? parse_url($ref) : false;
+    $refHost = ($parts['host'] ?? '') . (isset($parts['port']) ? ':' . $parts['port'] : '');
+    if ($parts && $refHost === ($_SERVER['HTTP_HOST'] ?? '')) {
+        $path = $parts['path'] ?? '/';
+        if (strpos($path, '/cart') !== 0 && strpos($path, '/checkout') !== 0) {
+            return $path . (isset($parts['query']) ? '?' . $parts['query'] : '');
+        }
+    }
+    return '/shop';
 }
 
 // Small note shown on every product photo.

@@ -8,8 +8,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $productId = (int)($_POST['product_id'] ?? 0);
 
     if ($action === 'add') {
-        $qty = max(1, (int)($_POST['qty'] ?? 1));
+        $qty = min(20, max(1, (int)($_POST['qty'] ?? 1)));
+        $product = get_product($productId);
+
+        // Buy Now: put it in the cart and go straight to checkout.
+        if (!empty($_POST['buy_now'])) {
+            cart_ensure($productId, $qty);
+            header('Location: /checkout');
+            exit;
+        }
+
         cart_add($productId, $qty);
+        $added = $product && has_price($product);
+
+        // Add to Cart from the page's script: answer with JSON, no page change.
+        if (($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'fetch') {
+            header('Content-Type: application/json');
+            echo json_encode([
+                'ok'    => $added,
+                'count' => cart_count(),
+                'name'  => $product['name'] ?? '',
+            ]);
+            exit;
+        }
+
+        // Without the script: go back to the page they were on.
+        if ($added) $_SESSION['flash_added'] = $product['name'];
+        header('Location: ' . back_url());
+        exit;
     } elseif ($action === 'update') {
         $qty = max(0, (int)($_POST['qty'] ?? 0));
         cart_set_qty($productId, $qty);

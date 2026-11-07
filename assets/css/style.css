@@ -958,3 +958,59 @@ table.admin-table th { color: var(--ink-soft); font-weight: 500; font-size: 0.78
 @media (max-width: 520px) {
   .product-detail .color-note { white-space: normal; }
 }
+
+/* Add to Cart + Buy Now buttons */
+.buy-actions {
+  display: flex;
+  gap: 8px;
+}
+.buy-actions .btn { flex: 1; text-align: center; white-space: nowrap; }
+.product-card .buy-actions .btn {
+  padding: 11px 8px;
+  font-size: 0.85rem;
+}
+.product-detail .buy-actions { gap: 12px; }
+.product-detail .buy-actions .btn { padding: 15px 20px; }
+.buy-actions .btn[disabled] { opacity: 0.7; cursor: wait; }
+
+/* "Added to cart" message */
+.cart-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: calc(100% - 32px);
+  padding: 12px 16px 12px 14px;
+  border-radius: 14px;
+  background: var(--ink);
+  color: var(--white);
+  font-size: 0.9rem;
+  box-shadow: 0 12px 30px rgba(43, 38, 34, 0.25);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 16px);
+  transition: opacity .25s ease, transform .25s ease, visibility .25s;
+}
+.cart-toast.show,
+.cart-toast[data-show] { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+.cart-toast-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--rose);
+  font-size: 0.8rem;
+}
+.cart-toast-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cart-toast-link {
+  flex-shrink: 0;
+  color: var(--gold-light);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
