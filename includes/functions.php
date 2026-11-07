@@ -1,6 +1,12 @@
 <?php
 require_once __DIR__ . '/db.php';
 
+// Delivery defaults. config.php can override these, but the live server keeps
+// its own config.php (deploys never overwrite it), so the site must still work
+// when they're missing there.
+if (!defined('DELIVERY_FEE')) define('DELIVERY_FEE', 200);
+if (!defined('FREE_DELIVERY_MIN')) define('FREE_DELIVERY_MIN', 2500);
+
 function money(int $amount): string {
     return SITE_CURRENCY_SYMBOL . number_format($amount);
 }
