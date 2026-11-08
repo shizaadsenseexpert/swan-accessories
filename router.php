@@ -17,7 +17,7 @@ if ($path !== '/' && is_file($file)) {
 if (preg_match('#^/home/?$#', $path)) {
     $path = '/';
     $file = __DIR__;
-} elseif (preg_match('#^/(bangles|bracelets|earrings|ear-cuffs|pendants|rings)/?$#', $path, $m)) {
+} elseif (preg_match('#^/(bangles|bracelets|earrings|ear-cuffs|pendants|rings|hair-accessories)/?$#', $path, $m)) {
     $_GET['category'] = $m[1];
     $file = __DIR__ . '/shop';
 } elseif (preg_match('#^/product/([0-9]+)(-[^/]*)?/?$#', $path, $m)) {

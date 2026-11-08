@@ -32,6 +32,7 @@
       <a href="<?= $basePath ?? '' ?>/ear-cuffs">Ear Cuffs</a>
       <a href="<?= $basePath ?? '' ?>/pendants">Pendants</a>
       <a href="<?= $basePath ?? '' ?>/rings">Rings</a>
+      <a href="<?= $basePath ?? '' ?>/hair-accessories">Hair Accessories</a>
     </nav>
     <div class="header-actions">
       <a class="cart-link" href="<?= $basePath ?? '' ?>/cart">

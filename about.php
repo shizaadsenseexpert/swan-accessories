@@ -7,10 +7,10 @@ require __DIR__ . '/includes/header.php';
 
 <div class="policy-page">
   <h1>About Swan Accessories</h1>
-  <p>Swan Accessories started with a simple idea: beautiful, everyday jewellery shouldn't be hard to find or hard to afford. We curate bangles, bracelets, earrings, ear cuffs, pendants and rings that go from a casual day out to your favourite occasion — pieces that feel considered, not throwaway.</p>
+  <p>Swan Accessories started with a simple idea: beautiful, everyday jewellery shouldn't be hard to find or hard to afford. We curate bangles, bracelets, earrings, ear cuffs, pendants, rings and hair accessories that go from a casual day out to your favourite occasion — pieces that feel considered, not throwaway.</p>
 
   <h2>What We Do</h2>
-  <p>We handpick each piece in our collection across six categories — Bangles, Bracelets, Earrings, Ear Cuffs, Pendants, and Rings — focusing on quality finishing and designs that stay in style. Every product on our site is available to order directly, with delivery across Pakistan and payment on delivery.</p>
+  <p>We handpick each piece in our collection across seven categories — Bangles, Bracelets, Earrings, Ear Cuffs, Pendants, Rings, and Hair Accessories — focusing on quality finishing and designs that stay in style. Every product on our site is available to order directly, with delivery across Pakistan and payment on delivery.</p>
 
   <h2>Why Shop With Us</h2>
   <ul>

@@ -448,6 +448,7 @@ function generate_product_description(string $name, string $category): string {
         'ear-cuffs' => 'A modern accent that hugs the curve of your ear.',
         'pendants' => 'Hangs beautifully on its chain and makes a thoughtful gift.',
         'rings'    => 'A stylish accent to wear on its own or stacked.',
+        'hair-accessories' => 'A pretty finishing touch for any hairstyle.',
     ];
     $second = preg_match('/kundan|chandbali|jhumka|bridal|polki|jadau/', $n)
         ? 'Perfect for weddings, mehndis and Eid.'
@@ -488,6 +489,7 @@ function seed_categories(): array {
         'ear-cuffs' => ['label' => 'Ear Cuffs', 'price' => 0],
         'pendants'  => ['label' => 'Pendants',  'price' => 550],
         'rings'     => ['label' => 'Rings',     'price' => 400],
+        'hair-accessories' => ['label' => 'Hair Accessories', 'price' => 0],
     ];
 }
 
@@ -499,6 +501,7 @@ function seed_new_products(PDO $pdo): void {
     seed_products($pdo, ['ear-cuffs' => $categories['ear-cuffs']], true);
     seed_products($pdo, ['pendants' => $categories['pendants']], true);
     seed_products($pdo, ['rings' => $categories['rings']], true);
+    seed_products($pdo, ['hair-accessories' => $categories['hair-accessories']], true);
     seed_products($pdo, ['earrings' => $categories['earrings']], true,
         ['earring 12.jpeg', 'earring 13.jpeg', 'earring 14.jpeg', 'earring 15.jpeg',
          'earring 16.jpeg', 'earring 17.jpeg', 'earring 18.jpeg', 'earring 19.jpeg',
