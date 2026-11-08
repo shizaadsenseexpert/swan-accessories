@@ -12,12 +12,12 @@ function money(int $amount): string {
 }
 
 function category_label(string $cat): string {
-    $labels = ['bangles' => 'Bangles', 'bracelet' => 'Bracelets', 'earrings' => 'Earrings', 'ear-cuffs' => 'Ear Cuffs', 'pendants' => 'Pendants', 'rings' => 'Rings'];
+    $labels = ['bangles' => 'Bangles', 'bracelet' => 'Bracelets', 'earrings' => 'Earrings', 'ear-cuffs' => 'Ear Cuffs', 'pendants' => 'Pendants', 'rings' => 'Rings', 'hair-accessories' => 'Hair Accessories'];
     return $labels[$cat] ?? ucfirst($cat);
 }
 
 function all_categories(): array {
-    return ['bangles', 'bracelet', 'earrings', 'ear-cuffs', 'pendants', 'rings'];
+    return ['bangles', 'bracelet', 'earrings', 'ear-cuffs', 'pendants', 'rings', 'hair-accessories'];
 }
 
 function get_products(?string $category = null, bool $activeOnly = true): array {

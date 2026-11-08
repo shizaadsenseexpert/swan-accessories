@@ -128,7 +128,8 @@ img { max-width: 100%; display: block; }
 .menu-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .menu-toggle.active span:nth-child(2) { opacity: 0; }
 .menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-@media (max-width: 960px) {
+/* Seven categories don't fit on one line below ~1100px, so use the menu button. */
+@media (max-width: 1099px) {
   .main-nav {
     display: none;
     position: absolute;
@@ -234,18 +235,26 @@ img { max-width: 100%; display: block; }
 
 /* Category tiles */
 .category-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: 24px;
+  /* Centred rows, so a short last row sits in the middle: 4 per row on
+     desktop, 3 on tablets, 2 on phones. */
+  --tiles: 4;
+  --tile-gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--tile-gap);
   padding: 64px 24px 32px;
   max-width: 1180px;
   margin: 0 auto;
+}
+.category-grid > .category-card {
+  flex: 0 0 calc((100% - (var(--tiles) - 1) * var(--tile-gap)) / var(--tiles));
 }
 .category-card {
   position: relative;
   border-radius: var(--radius);
   overflow: hidden;
-  aspect-ratio: 4/5;
+  aspect-ratio: 4/3;
   box-shadow: var(--shadow);
 }
 .category-card img {
@@ -263,6 +272,15 @@ img { max-width: 100%; display: block; }
   color: var(--white);
   font-family: 'Playfair Display', serif;
   font-size: 1.4rem;
+}
+@media (max-width: 960px) {
+  .category-grid { --tiles: 3; --tile-gap: 16px; }
+  .category-card { aspect-ratio: 4/5; }
+  .category-card .label { padding: 16px; font-size: 1.15rem; }
+}
+@media (max-width: 520px) {
+  .category-grid { --tiles: 2; --tile-gap: 12px; padding: 40px 16px 24px; }
+  .category-card .label { padding: 12px; font-size: 1rem; }
 }
 
 /* Section heading */

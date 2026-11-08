@@ -275,6 +275,11 @@ function product_name_map(): array {
         'earring 21.jpeg' => 'Geometric Enamel Triangle Drop Earrings',
         'earring 22.jpeg' => 'Sleek Gold Spike Drop Earrings',
 
+        'ear cuff 1.jpeg' => 'Smoky Crystal Wing Ear Cuff',
+        'ear cuff 2.jpeg' => 'Gold Chain Spike Drop Ear Cuff',
+
+        'hair accessory 1.jpeg' => 'Red & Sapphire Crystal Fan Hair Pin',
+
         'pendant 1.jpeg' => 'Golden Leaf Vine Ribbon Necklace',
         'pendant 2.jpeg' => 'Golden Beaded Rope Necklace',
         'pendant 3.jpeg' => 'Vintage Silver Owl Pendant',
@@ -363,6 +368,11 @@ function product_description_map(): array {
         'earring 21.jpeg' => 'Triangle drops in white, blush, sand and black enamel under an emerald-green stud. A modern, artsy statement.',
         'earring 22.jpeg' => 'Long polished gold spikes hanging from marquise studs. Minimal, sleek and effortlessly chic.',
 
+        'ear cuff 1.jpeg' => 'A wing of smoky grey marquise crystals set in gold that climbs up the ear. A dramatic statement for weddings and evening events.',
+        'ear cuff 2.jpeg' => 'A sleek gold cuff that curves around the ear with five fine chains ending in gold spike drops. Bold, modern and eye-catching.',
+
+        'hair accessory 1.jpeg' => 'A gold fan-shaped hair pin set with red stones, sapphire-blue and clear crystals, finished with a draped gold chain. A regal touch for weddings and festive hairstyles.',
+
         'pendant 1.jpeg' => 'A gold necklace with a leaf and vine ribbon design. Graceful and nature-inspired.',
         'pendant 2.jpeg' => 'A golden beaded rope necklace with rich texture. Elevates both plain and embellished outfits.',
         'pendant 3.jpeg' => 'A vintage-style silver owl pendant full of character. A charming piece for everyday wear.',
@@ -442,6 +452,7 @@ function generate_product_description(string $name, string $category): string {
         'ear-cuffs' => 'A modern accent that hugs the curve of your ear.',
         'pendants' => 'Hangs beautifully on its chain and makes a thoughtful gift.',
         'rings'    => 'A stylish accent to wear on its own or stacked.',
+        'hair-accessories' => 'A pretty finishing touch for any hairstyle.',
     ];
     $second = preg_match('/kundan|chandbali|jhumka|bridal|polki|jadau/', $n)
         ? 'Perfect for weddings, mehndis and Eid.'
@@ -482,6 +493,7 @@ function seed_categories(): array {
         'ear-cuffs' => ['label' => 'Ear Cuffs', 'price' => 0],
         'pendants'  => ['label' => 'Pendants',  'price' => 550],
         'rings'     => ['label' => 'Rings',     'price' => 400],
+        'hair-accessories' => ['label' => 'Hair Accessories', 'price' => 0],
     ];
 }
 
@@ -493,6 +505,7 @@ function seed_new_products(PDO $pdo): void {
     seed_products($pdo, ['ear-cuffs' => $categories['ear-cuffs']], true);
     seed_products($pdo, ['pendants' => $categories['pendants']], true);
     seed_products($pdo, ['rings' => $categories['rings']], true);
+    seed_products($pdo, ['hair-accessories' => $categories['hair-accessories']], true);
     seed_products($pdo, ['earrings' => $categories['earrings']], true,
         ['earring 12.jpeg', 'earring 13.jpeg', 'earring 14.jpeg', 'earring 15.jpeg',
          'earring 16.jpeg', 'earring 17.jpeg', 'earring 18.jpeg', 'earring 19.jpeg',
