@@ -293,7 +293,8 @@ img { max-width: 100%; display: block; }
 /* Product grid */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  /* min(): a card is never wider than the screen, even on very small phones */
+  grid-template-columns: repeat(auto-fill, minmax(min(230px, 100%), 1fr));
   gap: 26px;
   padding: 32px 24px 48px;
   max-width: 1180px;
@@ -577,7 +578,8 @@ img { max-width: 100%; display: block; }
   grid-template-columns: 1fr 1fr;
   gap: 50px;
 }
-@media (max-width: 780px) { .contact-page { grid-template-columns: 1fr; } }
+@media (max-width: 780px) { .contact-page { grid-template-columns: minmax(0, 1fr); } }
+.contact-card a, .contact-card .row div { overflow-wrap: anywhere; }
 .contact-card {
   background: var(--white);
   border-radius: var(--radius);
@@ -644,7 +646,9 @@ img { max-width: 100%; display: block; }
   .footer-inner { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 520px) {
-  .footer-inner { grid-template-columns: 1fr; }
+  /* Brand on its own row, link lists two per row */
+  .footer-inner { grid-template-columns: 1fr 1fr; gap: 28px 20px; }
+  .footer-brand { grid-column: 1 / -1; }
 }
 .footer-col h4 {
   font-family: 'Jost', sans-serif;
@@ -1031,4 +1035,79 @@ table.admin-table th { color: var(--ink-soft); font-weight: 500; font-size: 0.78
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* ---------- Phone layout ---------- */
+img { max-width: 100%; }
+body { overflow-wrap: break-word; }
+.color-note-short { display: none; }
+
+@media (max-width: 600px) {
+  /* Two products per row instead of one huge card */
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    padding: 20px 16px 36px;
+  }
+  .product-card .info { padding: 12px 12px 14px; gap: 4px; }
+  .product-card .cat-tag { font-size: 0.62rem; letter-spacing: 0.1em; }
+  .product-card h3 { font-size: 0.95rem; line-height: 1.3; margin: 4px 0 2px; }
+  .product-card .material-tag { font-size: 0.72rem; }
+  .product-card .price { font-size: 0.95rem; padding-top: 4px; }
+  .product-card form { margin-top: 8px; }
+  /* Add to Cart / Buy Now stack so they're easy to tap */
+  .product-card .buy-actions { flex-direction: column; gap: 6px; }
+  .product-card .buy-actions .btn,
+  .product-card > .info > .btn {
+    padding: 10px 6px;
+    font-size: 0.8rem;
+  }
+  .product-card > .info > .btn { margin-top: 8px; }
+  .product-card .color-note { bottom: 6px; padding: 3px 8px; font-size: 0.56rem; }
+  .product-card .color-note-long { display: none; }
+  .product-card .color-note-short { display: inline; }
+
+  .section-heading h2 { font-size: 1.6rem; }
+
+  /* Product page: full-width buttons under each other */
+  .product-detail { padding-left: 16px; padding-right: 16px; }
+  .product-detail .buy-actions { flex-direction: column; }
+
+  /* Cart: image + name on top, quantity / price / remove underneath */
+  .cart-page { padding-left: 16px; padding-right: 16px; }
+  .cart-row {
+    grid-template-columns: 64px 1fr auto;
+    grid-template-areas:
+      "img info info"
+      "img qty  total"
+      "img qty  remove";
+    gap: 6px 12px;
+    align-items: center;
+  }
+  .cart-row img { grid-area: img; width: 64px; height: 64px; align-self: start; }
+  .cart-row > div:first-of-type { grid-area: info; }
+  .cart-row > form:first-of-type { grid-area: qty; }
+  .cart-row .line-total { grid-area: total; text-align: right; font-weight: 500; }
+  .cart-row > form:last-of-type { grid-area: remove; justify-self: end; }
+  .cart-row .remove { padding: 6px 0; }
+  .cart-totals { max-width: none; }
+  .cart-page .btn { flex: 1 1 100%; text-align: center; }
+
+  /* Checkout, contact and info pages */
+  .checkout-page, .contact-page { padding-left: 16px; padding-right: 16px; }
+  .form-row { grid-template-columns: 1fr; }
+  .order-summary, .contact-card { padding: 20px; }
+  .contact-card .row > div { min-width: 0; }
+}
+
+/* Very small phones: keep logo, cart and menu button on one line */
+@media (max-width: 400px) {
+  .header-inner { padding: 14px 16px; gap: 10px; }
+  .brand-mark { font-size: 1.4rem; }
+  .brand-sub { font-size: 0.6rem; letter-spacing: 0.14em; }
+  .header-actions { gap: 8px; }
+  .cart-link { padding: 8px 12px; }
+}
+@media (max-width: 340px) {
+  .brand-sub { display: none; }
 }

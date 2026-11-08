@@ -149,7 +149,8 @@ function back_url(): string {
 
 // Small note shown on every product photo.
 function color_note(): string {
-    return '<span class="color-note">Product colour may vary slightly due to shoot lighting</span>';
+    return '<span class="color-note"><span class="color-note-long">Product colour may vary slightly due to shoot lighting</span>'
+        . '<span class="color-note-short">Colour may vary due to lighting</span></span>';
 }
 
 function delivery_label(?int $fee): string {
