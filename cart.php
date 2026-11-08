@@ -72,7 +72,7 @@ require __DIR__ . '/includes/header.php';
           <input type="hidden" name="product_id" value="<?= (int)$p['id'] ?>">
           <input type="number" name="qty" value="<?= (int)$item['qty'] ?>" min="0" max="20" onchange="this.form.submit()">
         </form>
-        <div><?= money($item['subtotal']) ?></div>
+        <div class="line-total"><?= money($item['subtotal']) ?></div>
         <form action="/cart" method="post">
           <input type="hidden" name="action" value="remove">
           <input type="hidden" name="product_id" value="<?= (int)$p['id'] ?>">
