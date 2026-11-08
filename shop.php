@@ -30,7 +30,14 @@ require __DIR__ . '/includes/header.php';
 </div>
 
 <?php if (empty($products)): ?>
-  <div class="empty-state">No products found in this category yet.</div>
+  <div class="empty-state">
+    <?php if ($cat): ?>
+      New <?= e(category_label($cat)) ?> are coming soon.<br>
+      <a class="btn btn-outline" style="margin-top:20px" href="<?= e(whatsapp_link('Hi! Do you have any ' . category_label($cat) . '?')) ?>" target="_blank" rel="noopener">Ask on WhatsApp</a>
+    <?php else: ?>
+      No products found yet.
+    <?php endif; ?>
+  </div>
 <?php else: ?>
 <div class="product-grid">
   <?php foreach ($products as $p): ?>

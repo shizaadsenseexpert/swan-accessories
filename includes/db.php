@@ -439,6 +439,7 @@ function generate_product_description(string $name, string $category): string {
         'bangles'  => 'Easy to stack and comfortable for festive or everyday wear.',
         'bracelet' => 'A graceful finishing touch for your wrist, day or night.',
         'earrings' => 'Lightweight and comfortable enough to wear all day.',
+        'ear-cuffs' => 'A modern accent that hugs the curve of your ear.',
         'pendants' => 'Hangs beautifully on its chain and makes a thoughtful gift.',
         'rings'    => 'A stylish accent to wear on its own or stacked.',
     ];
@@ -478,6 +479,7 @@ function seed_categories(): array {
         'bangles'   => ['label' => 'Bangles',   'price' => 450],
         'bracelet'  => ['label' => 'Bracelets', 'price' => 650],
         'earrings'  => ['label' => 'Earrings',  'price' => 350],
+        'ear-cuffs' => ['label' => 'Ear Cuffs', 'price' => 0],
         'pendants'  => ['label' => 'Pendants',  'price' => 550],
         'rings'     => ['label' => 'Rings',     'price' => 400],
     ];
@@ -488,6 +490,7 @@ function seed_categories(): array {
 // the listed newer photos in the older categories.
 function seed_new_products(PDO $pdo): void {
     $categories = seed_categories();
+    seed_products($pdo, ['ear-cuffs' => $categories['ear-cuffs']], true);
     seed_products($pdo, ['pendants' => $categories['pendants']], true);
     seed_products($pdo, ['rings' => $categories['rings']], true);
     seed_products($pdo, ['earrings' => $categories['earrings']], true,

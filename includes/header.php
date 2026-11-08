@@ -29,6 +29,7 @@
       <a href="<?= $basePath ?? '' ?>/bangles">Bangles</a>
       <a href="<?= $basePath ?? '' ?>/bracelets">Bracelets</a>
       <a href="<?= $basePath ?? '' ?>/earrings">Earrings</a>
+      <a href="<?= $basePath ?? '' ?>/ear-cuffs">Ear Cuffs</a>
       <a href="<?= $basePath ?? '' ?>/pendants">Pendants</a>
       <a href="<?= $basePath ?? '' ?>/rings">Rings</a>
     </nav>
