@@ -235,8 +235,8 @@ img { max-width: 100%; display: block; }
 /* Category tiles */
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 20px;
   padding: 64px 24px 32px;
   max-width: 1180px;
   margin: 0 auto;
@@ -263,6 +263,14 @@ img { max-width: 100%; display: block; }
   color: var(--white);
   font-family: 'Playfair Display', serif;
   font-size: 1.4rem;
+}
+@media (max-width: 960px) {
+  .category-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .category-card .label { padding: 16px; font-size: 1.15rem; }
+}
+@media (max-width: 520px) {
+  .category-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 40px 16px 24px; }
+  .category-card .label { padding: 12px; font-size: 1rem; }
 }
 
 /* Section heading */

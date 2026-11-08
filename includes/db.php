@@ -275,6 +275,9 @@ function product_name_map(): array {
         'earring 21.jpeg' => 'Geometric Enamel Triangle Drop Earrings',
         'earring 22.jpeg' => 'Sleek Gold Spike Drop Earrings',
 
+        'ear cuff 1.jpeg' => 'Smoky Crystal Wing Ear Cuff',
+        'ear cuff 2.jpeg' => 'Gold Chain Spike Drop Ear Cuff',
+
         'pendant 1.jpeg' => 'Golden Leaf Vine Ribbon Necklace',
         'pendant 2.jpeg' => 'Golden Beaded Rope Necklace',
         'pendant 3.jpeg' => 'Vintage Silver Owl Pendant',
@@ -362,6 +365,9 @@ function product_description_map(): array {
         'earring 20.jpeg' => 'Four freshwater-style pearls stacked below a gold ball stud, finished with a smoky crystal bead. Elegant for day and evening.',
         'earring 21.jpeg' => 'Triangle drops in white, blush, sand and black enamel under an emerald-green stud. A modern, artsy statement.',
         'earring 22.jpeg' => 'Long polished gold spikes hanging from marquise studs. Minimal, sleek and effortlessly chic.',
+
+        'ear cuff 1.jpeg' => 'A wing of smoky grey marquise crystals set in gold that climbs up the ear. A dramatic statement for weddings and evening events.',
+        'ear cuff 2.jpeg' => 'A sleek gold cuff that curves around the ear with five fine chains ending in gold spike drops. Bold, modern and eye-catching.',
 
         'pendant 1.jpeg' => 'A gold necklace with a leaf and vine ribbon design. Graceful and nature-inspired.',
         'pendant 2.jpeg' => 'A golden beaded rope necklace with rich texture. Elevates both plain and embellished outfits.',
